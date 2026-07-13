@@ -9,50 +9,52 @@ export default function HomePage() {
 	const recentPosts = mockPosts.slice(0, RECENT_POST_LIMIT);
 
 	return (
-		<div className="space-y-4">
-			<section className="site-panel p-5 sm:p-6">
-				<h2 className="site-heading text-2xl sm:text-3xl">
-					Welcome to Chronicle
-				</h2>
+		<div>
+			<section className="site-panel p-2">
+				<h2 className="site-heading text-2xl">Welcome to Chronicle</h2>
 
-				<p className="mt-4 max-w-2xl leading-7">
+				<p className="mt-2">
 					Chronicle is my personal corner of the web for projects, programming
 					notes, collected resources, and anything else that seems worth
 					preserving.
 				</p>
 
-				<p className="mt-3 max-w-2xl leading-7">
+				<p className="mt-2">
 					The site changes between an adventurous parchment archive and an
 					electric late-night theme.
 				</p>
 			</section>
 
-			<section className="space-y-4" aria-labelledby="recent-entries-heading">
-				<div className="site-panel flex flex-wrap items-center justify-between gap-3 p-4">
+			<section
+				className="recent-entries"
+				aria-labelledby="recent-entries-heading"
+			>
+				<header className="recent-entries-heading">
 					<div>
 						<h2 id="recent-entries-heading" className="site-heading text-2xl">
 							Recent entries
 						</h2>
 
-						<p className="mt-1 text-sm">The latest additions to the archive.</p>
+						<p className="text-sm">The latest additions to the archive.</p>
 					</div>
 
-					<Link href="/blog" className="site-link font-bold">
+					<Link href="/blog" className="site-link">
 						View all entries →
 					</Link>
-				</div>
+				</header>
 
-				{recentPosts.map((post) => (
-					<PostCard key={post.id} post={post} compact />
-				))}
+				<div className="recent-entries-list">
+					{recentPosts.map((post) => (
+						<PostCard key={post.id} post={post} compact />
+					))}
+				</div>
 			</section>
 
-			<section className="site-panel p-5 sm:p-6">
-				<h2 className="site-heading text-2xl">Guestbook</h2>
+			<section className="site-panel-dashed site-panel mt-2 p-3">
+				<h2 className="site-heading text-xl">Guestbook</h2>
 
-				<p className="mt-3 leading-7">
-					This space is reserved for the future site-wide guestbook. It will be
-					separate from comments attached to individual blog entries.
+				<p className="mt-2">
+					Coming soon. Leave a message for the entire site.
 				</p>
 			</section>
 		</div>

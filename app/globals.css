@@ -1,64 +1,61 @@
 @import "tailwindcss";
 
-@theme inline {
-	--font-sans: var(--font-geist-sans);
-	--font-mono: var(--font-geist-mono);
-}
-
-/*
- * Default parchment theme.
- */
 :root {
 	--page-background: url("/backgrounds/paper.jpg");
-	--page-fallback: #b99a5d;
+	--page-fallback: #c5a968;
 
-	--page-color: #302719;
-	--muted-color: #67583b;
-	--heading-color: #663622;
+	--page-color: #000;
+	--muted-color: #000;
+	--heading-color: #000;
 
-	--panel-background: rgb(245 226 177 / 90%);
-	--panel-border-color: #604929;
-	--panel-shadow-color: rgb(63 45 25 / 48%);
+	--panel-background: rgb(255 244 204 / 82%);
+	--panel-border-color: #5f5135;
 
-	--link-color: #285b38;
-	--link-hover-color: #8a2f26;
+	--panel-header-start: #f1f1f1;
+	--panel-header-middle: #cfcfcf;
+	--panel-header-end: #999;
+	--panel-header-color: #000;
+	--panel-header-border: #777;
 
-	--input-background: #fff9df;
-	--input-border-color: #8a744c;
+	--link-color: #0000ee;
+	--link-hover-color: #000088;
+	--link-visited-color: #551a8b;
 
-	--button-background: #d2b775;
-	--button-border-light: #f7e3aa;
-	--button-border-dark: #795d32;
+	--input-background: #fff;
+	--input-border-color: #777;
 
-	--selected-background: #663622;
-	--selected-color: #fff6d7;
+	--button-background: #d4bd7d;
+	--button-border-light: #fff2c3;
+	--button-border-dark: #67552f;
 
-	--focus-color: #7d2c24;
+	--selected-background: #000080;
+	--selected-color: #fff;
+
+	--focus-color: #000;
 
 	color-scheme: light;
 }
 
-/*
- * Lightning theme.
- *
- * These variables override the parchment values when the html element has:
- *
- * data-theme="lightning"
- */
 html[data-theme="lightning"] {
 	--page-background: url("/backgrounds/lightning.gif");
 	--page-fallback: #000;
 
-	--page-color: #f1f6ff;
-	--muted-color: #9db7da;
+	--page-color: #fff;
+	--muted-color: #b7c7df;
 	--heading-color: #a8dfff;
 
 	--panel-background: rgb(0 5 18 / 91%);
 	--panel-border-color: #287cd9;
-	--panel-shadow-color: rgb(0 64 160 / 68%);
+
+	--panel-header-start: #148cff;
+	--panel-header-middle: #064ca4;
+	--panel-header-end: #001d52;
+	--panel-header-color: #fff;
+	--panel-header-border: #54b8ff;
 
 	--link-color: #7cd7ff;
 	--link-hover-color: #d38cff;
+	--link-visited-color: #bf8cff;
 
 	--input-background: #050b16;
 	--input-border-color: #3373b6;
@@ -88,12 +85,15 @@ body {
 }
 
 button,
-input {
+input,
+textarea,
+select {
 	font: inherit;
 }
 
 .site-background {
-	min-height: 100vh;
+	height: 100vh;
+	overflow: hidden;
 	background-color: var(--page-fallback);
 	background-image: var(--page-background);
 	background-position: top left;
@@ -102,27 +102,52 @@ input {
 }
 
 .site-panel {
-	border: 2px solid var(--panel-border-color);
+	border: 1px solid var(--panel-border-color);
 	background: var(--panel-background);
-	box-shadow:
-		inset 0 0 0 1px rgb(255 255 255 / 18%),
-		3px 3px 0 var(--panel-shadow-color);
 	color: var(--page-color);
+}
+
+.panel-header {
+	border-bottom: 1px solid var(--panel-header-border);
+	background: linear-gradient(
+		to bottom,
+		var(--panel-header-start) 0%,
+		var(--panel-header-middle) 55%,
+		var(--panel-header-end) 100%
+	);
+	padding: 0.2rem 0.45rem;
+	color: var(--panel-header-color);
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.95rem;
+	font-weight: bold;
+	line-height: 1.1;
+}
+
+.panel-body {
+	padding: 0.45rem;
 }
 
 .site-heading {
 	color: var(--heading-color);
-	font-family: Georgia, "Times New Roman", serif;
-	font-weight: 700;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
 }
 
-.site-link {
+.site-link,
+.tag-link {
 	color: var(--link-color);
+	font-family: "Times New Roman", Times, serif;
+	font-weight: normal;
 	text-decoration: underline;
-	text-underline-offset: 0.2em;
 }
 
-.site-link:hover {
+.site-link:visited,
+.tag-link:visited {
+	color: var(--link-visited-color);
+}
+
+.site-link:hover,
+.tag-link:hover {
 	color: var(--link-hover-color);
 }
 
@@ -130,25 +155,26 @@ input {
 	width: 100%;
 	border: 2px inset var(--input-border-color);
 	background: var(--input-background);
-	padding: 0.65rem 0.75rem;
+	padding: 0.35rem 0.45rem;
 	color: var(--page-color);
 }
 
 .site-button {
-	min-height: 2.5rem;
+	min-height: 2rem;
 	cursor: pointer;
 	border-top: 2px solid var(--button-border-light);
 	border-right: 2px solid var(--button-border-dark);
 	border-bottom: 2px solid var(--button-border-dark);
 	border-left: 2px solid var(--button-border-light);
 	background: var(--button-background);
-	padding: 0.45rem 0.8rem;
+	padding: 0.3rem 0.65rem;
 	color: var(--page-color);
-	font-weight: 700;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
 }
 
 .site-button:hover {
-	filter: brightness(1.08);
+	text-decoration: underline;
 }
 
 .site-button:active {
@@ -160,36 +186,49 @@ input {
 
 .tag-link {
 	display: inline-block;
-	border: 1px solid var(--panel-border-color);
-	background: var(--panel-background);
-	padding: 0.25rem 0.55rem;
-	color: var(--link-color);
-	text-decoration: none;
+	padding: 0.15rem 0;
+	background: transparent;
 	white-space: nowrap;
-}
-
-.tag-link:hover {
-	color: var(--link-hover-color);
-	text-decoration: underline;
 }
 
 .tag-link[data-active="true"] {
 	background: var(--selected-background);
 	color: var(--selected-color);
-	font-weight: 700;
+	font-weight: bold;
 }
 
-.post-card {
-	overflow: hidden;
-	border: 2px solid var(--panel-border-color);
+.recent-entries {
+	border: 1px solid var(--panel-border-color);
 	background: var(--panel-background);
-	box-shadow: 3px 3px 0 var(--panel-shadow-color);
+}
+
+.recent-entries-heading {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: end;
+	justify-content: space-between;
+	gap: 0.5rem;
+	border-bottom: 1px dotted var(--panel-border-color);
+	padding: 0.45rem;
+}
+
+.recent-entries-list {
+	padding: 0.25rem 0.5rem 0.5rem;
+}
+
+.post-result {
+	padding: 0.75rem 0;
+	background: transparent;
+}
+
+.post-result + .post-result {
+	border-top: 1px dotted var(--panel-border-color);
 }
 
 .post-card__meta {
 	color: var(--muted-color);
-	font-family: var(--font-geist-mono), monospace;
-	font-size: 0.8rem;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 0.75rem;
 }
 
 .logo-lightning {
@@ -204,17 +243,43 @@ html[data-theme="lightning"] .logo-lightning {
 	display: block;
 }
 
+.site-logo-area {
+	flex: none;
+}
+
+.site-layout-grid {
+	min-height: 0;
+	flex: 1;
+}
+
+.site-center-scroll {
+	min-width: 0;
+	min-height: 0;
+	overflow-y: auto;
+	padding-right: 0.25rem;
+	scrollbar-width: none;
+}
+
+.site-center-scroll::-webkit-scrollbar {
+	display: none;
+}
+
 .site-link:focus-visible,
 .site-button:focus-visible,
 .site-input:focus-visible,
 .tag-link:focus-visible {
-	outline: 3px solid var(--focus-color);
-	outline-offset: 3px;
+	outline: 2px dotted var(--focus-color);
+	outline-offset: 2px;
 }
 
-/*
- * Temporary Windows-style post area.
- */
+.lightning-decoration {
+	display: none;
+}
+
+html[data-theme="lightning"] .lightning-decoration {
+	display: block;
+}
+
 .desktop-background {
 	min-height: 100vh;
 	background-color: #008080;
@@ -244,7 +309,8 @@ html[data-theme="lightning"] .logo-lightning {
 	background: #000080;
 	padding: 0.25rem 0.4rem;
 	color: #fff;
-	font-weight: 700;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
 }
 
 .desktop-window-button {
@@ -258,8 +324,26 @@ html[data-theme="lightning"] .logo-lightning {
 	border-left: 2px solid #fff;
 	background: #c0c0c0;
 	color: #000;
+	font-family: Arial, Helvetica, sans-serif;
 	font-size: 0.75rem;
 	line-height: 1;
+}
+
+@media (max-width: 1023px) {
+	.site-background {
+		height: auto;
+		min-height: 100vh;
+		overflow: visible;
+	}
+
+	.site-layout-grid {
+		min-height: auto;
+	}
+
+	.site-center-scroll {
+		overflow: visible;
+		padding-right: 0;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -18,40 +18,37 @@ export function PostCard({ post, compact = false }: PostCardProps) {
 	return (
 		<article
 			className={
-				compact ? "post-card grid sm:grid-cols-[180px_1fr]" : "post-card"
+				compact
+					? "post-result grid gap-3 sm:grid-cols-[180px_minmax(0,1fr)]"
+					: "post-result grid gap-4 sm:grid-cols-[240px_minmax(0,1fr)]"
 			}
 		>
 			<Image
 				src={post.coverImage}
 				alt=""
 				width={1200}
-				height={630}
-				className={
-					compact
-						? "h-full min-h-40 w-full object-cover"
-						: "aspect-[16/9] h-auto w-full object-cover"
-				}
+				height={675}
+				className="aspect-video h-auto w-full object-cover"
 			/>
 
-			<div className="p-4">
-				<div className="post-card__meta flex flex-wrap justify-between gap-2">
+			<div className="min-w-0">
+				<div className="post-card__meta">
 					<time dateTime={post.createdAt}>{formattedDate}</time>
-
-					<span>
-						{post.commentCount}{" "}
-						{post.commentCount === 1 ? "comment" : "comments"}
-					</span>
 				</div>
 
-				<h2 className="site-heading mt-3 text-xl">
+				<h2
+					className={
+						compact ? "site-heading mt-1 text-lg" : "site-heading mt-1 text-xl"
+					}
+				>
 					<Link href={`/blog/${post.slug}`} className="site-link">
 						{post.title}
 					</Link>
 				</h2>
 
-				<p className="mt-3 leading-7">{post.excerpt}</p>
+				<p className="mt-1 text-sm leading-5">{post.excerpt}</p>
 
-				<div className="mt-4 flex flex-wrap gap-2">
+				<div className="mt-2 flex flex-wrap gap-1">
 					{post.tags.map((tag) => (
 						<Link
 							key={tag}
@@ -62,13 +59,6 @@ export function PostCard({ post, compact = false }: PostCardProps) {
 						</Link>
 					))}
 				</div>
-
-				<Link
-					href={`/blog/${post.slug}`}
-					className="site-link mt-4 inline-block font-bold"
-				>
-					Open entry →
-				</Link>
 			</div>
 		</article>
 	);

@@ -2,55 +2,49 @@ import Image from "next/image";
 
 const socialLinks = [
 	{
-		href: "https://github.com/your-username",
+		href: "https://github.com/KuriGohan1992",
 		label: "GitHub",
-		image: "/images/social/github.jpg",
+		image: "/social/github.jpg",
 	},
 	{
-		href: "https://www.linkedin.com/in/your-profile",
+		href: "www.linkedin.com/in/cham-mendez",
 		label: "LinkedIn",
-		image: "/images/social/linkedin.jpg",
+		image: "/social/linkedin.jpg",
 	},
 	{
-		href: "mailto:your-email@example.com",
+		href: "mailto:chammendez92905@gmail.com",
 		label: "Email",
-		image: "/images/social/email.jpg",
+		image: "/social/email.jpg",
 	},
 ] as const;
 
 export function SocialLinks() {
 	return (
-		<section aria-labelledby="social-links-heading">
-			<h2 id="social-links-heading" className="site-heading text-lg">
-				Links
-			</h2>
+		<ul className="space-y-2">
+			{socialLinks.map((link) => {
+				const isEmail = link.href.startsWith("mailto:");
 
-			<ul className="mt-3 space-y-3">
-				{socialLinks.map((link) => {
-					const isEmail = link.href.startsWith("mailto:");
+				return (
+					<li key={link.label}>
+						<a
+							href={link.href}
+							target={isEmail ? undefined : "_blank"}
+							rel={isEmail ? undefined : "noreferrer"}
+							className="site-link flex items-center gap-2"
+						>
+							<Image
+								src={link.image}
+								alt=""
+								width={32}
+								height={32}
+								className="size-8 object-contain"
+							/>
 
-					return (
-						<li key={link.label}>
-							<a
-								href={link.href}
-								target={isEmail ? undefined : "_blank"}
-								rel={isEmail ? undefined : "noreferrer"}
-								className="site-link flex items-center gap-3"
-							>
-								<Image
-									src={link.image}
-									alt=""
-									width={32}
-									height={32}
-									className="size-8 object-contain"
-								/>
-
-								<span>{link.label}</span>
-							</a>
-						</li>
-					);
-				})}
-			</ul>
-		</section>
+							<span>{link.label}</span>
+						</a>
+					</li>
+				);
+			})}
+		</ul>
 	);
 }

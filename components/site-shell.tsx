@@ -11,62 +11,71 @@ type SiteShellProps = Readonly<{
 
 export function SiteShell({ children }: SiteShellProps) {
 	return (
-		<div className="site-background px-3 py-4 sm:px-5">
-			<div className="mx-auto w-full max-w-[1440px]">
-				<SiteLogo />
-
-				<div className="site-panel mb-4 p-3 lg:hidden">
-					<SiteNavigation compact />
+		<div className="site-background flex flex-col px-2 py-2 sm:px-3">
+			<div className="mx-auto flex h-full w-full max-w-[1440px] flex-col">
+				<div className="site-logo-area">
+					<SiteLogo />
 				</div>
 
-				<div className="grid gap-4 lg:grid-cols-[minmax(180px,1fr)_minmax(0,2fr)_minmax(180px,1fr)] xl:grid-cols-[minmax(220px,1fr)_minmax(0,2fr)_minmax(220px,1fr)]">
-					<aside className="hidden space-y-4 lg:block">
-						<section className="site-panel p-4">
-							<SiteNavigation />
+				<div className="site-panel mb-2 lg:hidden">
+					<h2 className="panel-header">Navigation</h2>
+
+					<div className="panel-body">
+						<SiteNavigation compact />
+					</div>
+				</div>
+
+				<div className="site-layout-grid grid gap-2 lg:grid-cols-[220px_minmax(0,1fr)_220px]">
+					<aside className="hidden min-h-0 space-y-2 lg:block">
+						<section className="site-panel">
+							<h2 className="panel-header">Navigation</h2>
+
+							<div className="panel-body">
+								<SiteNavigation />
+							</div>
 						</section>
 
-						<section className="site-panel p-4">
-							<h2 className="site-heading text-lg">Status</h2>
 
-							<p className="mt-3 text-sm leading-6">
-								Currently building Chronicle.
-							</p>
+						<section className="site-panel">
+							<h2 className="panel-header">Future corner</h2>
 
-							<p className="mt-2 text-sm">Role: Visitor</p>
-						</section>
-
-						<section className="site-panel p-4">
-							<h2 className="site-heading text-lg">Future corner</h2>
-
-							<p className="mt-3 text-sm leading-6">
-								Stickers, GIFs, buttons, or a counter can be placed here later.
-							</p>
+							<div className="panel-body">
+								<p className="text-sm">
+									Buttons, GIFs, counters, and other web debris will go here.
+								</p>
+							</div>
 						</section>
 					</aside>
 
-					<main className="min-w-0">{children}</main>
+					<main className="site-center-scroll">{children}</main>
 
-					<aside className="space-y-4">
-						<section className="site-panel p-4">
-							<h2 className="site-heading text-lg">Theme</h2>
+					<aside className="min-h-0 space-y-2">
+						<section className="site-panel">
+							<h2 className="panel-header">Theme</h2>
 
-							<div className="mt-3">
+							<div className="panel-body">
 								<ThemeSwitcher />
 							</div>
 						</section>
 
-						<section className="site-panel p-4">
-							<h2 className="site-heading text-lg">Account</h2>
+						<section className="site-panel">
+							<h2 className="panel-header">Account</h2>
 
-							<p className="mt-3 text-sm">Role: Visitor</p>
+							<div className="panel-body">
+								<p className="text-sm">Role: Visitor</p>
 
-							<p className="mt-2 text-sm leading-6">
-								Admin sign-in and writing controls will be connected later.
-							</p>
+								<p className="mt-1 text-sm">
+									Admin controls will appear here later.
+								</p>
+							</div>
 						</section>
 
-						<section className="site-panel p-4">
-							<SocialLinks />
+						<section className="site-panel">
+							<h2 className="panel-header">Links</h2>
+
+							<div className="panel-body">
+								<SocialLinks />
+							</div>
 						</section>
 					</aside>
 				</div>

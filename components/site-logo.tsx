@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function SiteLogo() {
 	return (
-		<header className="py-2 text-center sm:py-3">
+		<header className="py-1 text-center">
 			<h1 className="sr-only">Chronicle</h1>
 
 			<Image
@@ -11,7 +11,7 @@ export function SiteLogo() {
 				width={700}
 				height={220}
 				priority
-				className="logo-parchment mx-auto h-auto w-full max-w-[700px]"
+				className="logo-parchment mx-auto h-auto w-full max-w-[560px]"
 			/>
 
 			<Image
@@ -20,7 +20,7 @@ export function SiteLogo() {
 				width={500}
 				height={150}
 				priority
-				className="logo-lightning mx-auto h-auto w-full max-w-[500px]"
+				className="logo-lightning mx-auto h-auto w-full max-w-[430px]"
 			/>
 		</header>
 	);
