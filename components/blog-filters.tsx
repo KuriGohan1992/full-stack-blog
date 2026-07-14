@@ -1,64 +1,82 @@
 "use client";
 
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRef } from "react";
 
 type BlogFiltersProps = Readonly<{
 	tags: string[];
+	selectedTags: string[];
+	query: string;
 }>;
 
-export function BlogFilters({ tags }: BlogFiltersProps) {
-	const searchParams = useSearchParams();
-	const selectedTags = searchParams.getAll("tag");
+export function BlogFilters({ tags, selectedTags, query }: BlogFiltersProps) {
+	const formRef = useRef<HTMLFormElement>(null);
 
-	function buildTagUrl(tag?: string) {
-		const nextParams = new URLSearchParams(searchParams.toString());
+	function submitFilters() {
+		formRef.current?.requestSubmit();
+	}
 
-		nextParams.delete("page");
+	function clearFilters() {
+		const form = formRef.current;
 
-		if (!tag) {
-			nextParams.delete("tag");
-		} else {
-			const nextTags = selectedTags.includes(tag)
-				? selectedTags.filter((selectedTag) => selectedTag !== tag)
-				: [...selectedTags, tag];
+		if (!form) {
+			return;
+		}
 
-			nextParams.delete("tag");
-
-			for (const nextTag of nextTags) {
-				nextParams.append("tag", nextTag);
+		for (const element of form.elements) {
+			if (element instanceof HTMLInputElement && element.type === "checkbox") {
+				element.checked = false;
 			}
 		}
 
-		const queryString = nextParams.toString();
-
-		return queryString ? `/blog?${queryString}` : "/blog";
+		form.requestSubmit();
 	}
 
 	return (
-		<nav aria-label="Filter blog entries by tag">
-			<h2 className="site-heading text-lg">Filter by tag</h2>
+		<form
+			ref={formRef}
+			method="get"
+			action="/blog"
+			className="blog-filter-fieldset"
+			onChange={submitFilters}
+		>
+			{query && <input type="hidden" name="q" value={query} />}
 
-			<div className="mt-3 flex gap-2 overflow-x-auto pb-2 lg:flex-wrap">
-				<Link
-					href={buildTagUrl()}
-					data-active={selectedTags.length === 0}
-					className="tag-link"
-				>
-					#all
-				</Link>
+			<fieldset>
+				<legend>Filter by tag</legend>
 
-				{tags.map((tag) => (
-					<Link
-						key={tag}
-						href={buildTagUrl(tag)}
-						data-active={selectedTags.includes(tag)}
-						className="tag-link"
-					>
-						#{tag}
-					</Link>
-				))}
-			</div>
-		</nav>
+				<div className="blog-tag-options">
+					{tags.map((tag) => {
+						const inputId = `tag-${tag}`;
+
+						return (
+							<label key={tag} htmlFor={inputId} className="blog-tag-option">
+								<input
+									id={inputId}
+									name="tag"
+									type="checkbox"
+									value={tag}
+									defaultChecked={selectedTags.includes(tag)}
+								/>
+
+								<span>{tag}</span>
+							</label>
+						);
+					})}
+				</div>
+			</fieldset>
+
+			<button
+				type="button"
+				onClick={clearFilters}
+				disabled={selectedTags.length === 0}
+				className="clear-filter-button"
+			>
+				Clear filters
+			</button>
+
+			<button type="submit" hidden>
+				Update filters
+			</button>
+		</form>
 	);
 }

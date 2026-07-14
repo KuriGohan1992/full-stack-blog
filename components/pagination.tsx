@@ -34,14 +34,11 @@ export function Pagination({
 	}
 
 	return (
-		<nav
-			aria-label="Blog pagination"
-			className="site-panel flex flex-wrap items-center justify-center gap-2 p-4"
-		>
+		<nav aria-label="Blog pagination" className="blog-pagination">
 			{currentPage > 1 && (
 				<Link
 					href={buildPageUrl(currentPage - 1, query, selectedTags)}
-					className="site-button"
+					className="win98-button"
 				>
 					← Previous
 				</Link>
@@ -53,9 +50,7 @@ export function Pagination({
 						key={page}
 						href={buildPageUrl(page, query, selectedTags)}
 						aria-current={page === currentPage ? "page" : undefined}
-						className={
-							page === currentPage ? "site-button underline" : "site-button"
-						}
+						className="win98-button"
 					>
 						{page}
 					</Link>
@@ -65,7 +60,7 @@ export function Pagination({
 			{currentPage < totalPages && (
 				<Link
 					href={buildPageUrl(currentPage + 1, query, selectedTags)}
-					className="site-button"
+					className="win98-button"
 				>
 					Next →
 				</Link>

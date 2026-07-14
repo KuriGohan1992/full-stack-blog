@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-
 import { BlogFilters } from "@/components/blog-filters";
+
 import { Pagination } from "@/components/pagination";
 import { PostCard } from "@/components/post-card";
 import { availableTags, mockPosts } from "@/lib/mock-posts";
@@ -23,7 +23,9 @@ type BlogPageProps = Readonly<{
 export default async function BlogPage({ searchParams }: BlogPageProps) {
 	const resolvedSearchParams = await searchParams;
 
-	const query = resolvedSearchParams.q?.trim().toLowerCase() ?? "";
+	const originalQuery = resolvedSearchParams.q?.trim() ?? "";
+
+	const normalizedQuery = originalQuery.toLowerCase();
 
 	const selectedTags =
 		typeof resolvedSearchParams.tag === "string"
@@ -34,16 +36,16 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
 	const filteredPosts = mockPosts.filter((post) => {
 		const matchesSearch =
-			query.length === 0 ||
-			post.title.toLowerCase().includes(query) ||
-			post.excerpt.toLowerCase().includes(query) ||
-			post.tags.some((tag) => tag.toLowerCase().includes(query));
+			normalizedQuery.length === 0 ||
+			post.title.toLowerCase().includes(normalizedQuery) ||
+			post.excerpt.toLowerCase().includes(normalizedQuery) ||
+			post.tags.some((tag) => tag.toLowerCase().includes(normalizedQuery));
 
-		const matchesEverySelectedTag = selectedTags.every((selectedTag) =>
+		const matchesSelectedTags = selectedTags.every((selectedTag) =>
 			post.tags.includes(selectedTag),
 		);
 
-		return matchesSearch && matchesEverySelectedTag;
+		return matchesSearch && matchesSelectedTags;
 	});
 
 	const totalPages = Math.max(
@@ -62,61 +64,73 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 		startingIndex + POSTS_PER_PAGE,
 	);
 
+	const hasActiveFilters = originalQuery.length > 0 || selectedTags.length > 0;
+
 	return (
-		<div className="space-y-4">
-			<section className="site-panel p-5 sm:p-6">
-				<h1 className="site-heading text-3xl">All entries</h1>
+		<section className="site-panel blog-archive">
+			<div className="blog-archive-intro">
+				<h1 className="site-heading text-3xl">All blog posts</h1>
 
-				<p className="mt-3 leading-7">
-					Search the full archive or combine multiple tags. When several tags
-					are selected, a post must contain every selected tag.
+				<p className="mt-1">Search the archive or filter posts by tag.</p>
+
+				<p className="blog-filter-note">
+					Note: When multiple tags are selected, a post must contain every
+					selected tag.
 				</p>
-
-				<form
-					method="get"
-					action="/blog"
-					className="mt-5 flex flex-col gap-2 sm:flex-row"
-				>
+			</div>
+			<form method="get" action="/blog" className="blog-controls">
+				<div className="blog-search-row">
 					<label htmlFor="blog-search" className="sr-only">
 						Search blog entries
 					</label>
-
 					<input
 						id="blog-search"
 						name="q"
 						type="search"
-						defaultValue={resolvedSearchParams.q ?? ""}
+						defaultValue={originalQuery}
 						placeholder="Search the archive..."
-						className="site-input min-w-0 flex-1"
+						className="blog-search-input"
 					/>
-
 					{selectedTags.map((tag) => (
 						<input key={tag} type="hidden" name="tag" value={tag} />
 					))}
-
-					<button type="submit" className="site-button">
+					<button type="submit" className="raw-form-button">
 						Search
 					</button>
-				</form>
-
-				<div className="mt-5">
-					<BlogFilters tags={availableTags} />
 				</div>
-			</section>
-
-			<div className="site-panel p-4 text-sm">
-				Showing {paginatedPosts.length} of {filteredPosts.length} matching
-				entries.
+			</form>
+			<div className="blog-filter-container">
+				<BlogFilters
+					tags={availableTags}
+					selectedTags={selectedTags}
+					query={originalQuery}
+				/>
+			</div>
+			<div
+				className={
+					hasActiveFilters
+						? "blog-results-divider"
+						: "blog-results-divider blog-results-divider-empty"
+				}
+			>
+				{hasActiveFilters && (
+					<p>
+						{filteredPosts.length} matching{" "}
+						{filteredPosts.length === 1 ? "post" : "posts"}.
+					</p>
+				)}
 			</div>
 
-			<section className="space-y-4" aria-label="Blog entries">
+			<section className="blog-entry-list" aria-label="Blog entries">
 				{paginatedPosts.length > 0 ? (
 					paginatedPosts.map((post) => <PostCard key={post.id} post={post} />)
 				) : (
-					<div className="site-panel p-6 text-center">
+					<div className="blog-empty-state">
 						<h2 className="site-heading text-xl">No entries found</h2>
 
-						<p className="mt-2">Try another search or clear some filters.</p>
+						<p className="mt-1">
+							Try another search or clear the current filters.
+						</p>
 					</div>
 				)}
 			</section>
@@ -124,9 +138,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 			<Pagination
 				currentPage={currentPage}
 				totalPages={totalPages}
-				query={query}
+				query={originalQuery}
 				selectedTags={selectedTags}
 			/>
-		</div>
+		</section>
 	);
 }
