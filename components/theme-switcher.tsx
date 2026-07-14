@@ -1,14 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
-type Theme = "paper" | "sky";
-
-const THEME_STORAGE_KEY = "chronicle-theme";
-
-function getCurrentTheme(): Theme {
-	return document.documentElement.dataset.theme === "sky" ? "sky" : "paper";
-}
+import { getCurrentTheme, saveTheme, type Theme } from "@/lib/theme-storage";
 
 export function ThemeSwitcher() {
 	const [theme, setTheme] = useState<Theme>("paper");
@@ -20,8 +13,8 @@ export function ThemeSwitcher() {
 	function switchTheme() {
 		const nextTheme: Theme = theme === "paper" ? "sky" : "paper";
 
-		document.documentElement.dataset.theme = nextTheme;
-		window.localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+		saveTheme(nextTheme);
+
 		setTheme(nextTheme);
 	}
 

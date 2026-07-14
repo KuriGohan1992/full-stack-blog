@@ -3,42 +3,13 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-type Theme = "paper" | "sky";
-
-type Wallpaper = "newspaper" | "paper" | "stars" | "electric";
-
-const PAPER_WALLPAPER_KEY = "chronicle-paper-wallpaper";
-const SKY_WALLPAPER_KEY = "chronicle-sky-wallpaper";
-
-function getTheme(): Theme {
-	return document.documentElement.dataset.theme === "sky" ? "sky" : "paper";
-}
-
-function getDefaultWallpaper(theme: Theme): Wallpaper {
-	return theme === "sky" ? "stars" : "newspaper";
-}
-
-function getStoredWallpaper(theme: Theme): Wallpaper {
-	const storageKey = theme === "sky" ? SKY_WALLPAPER_KEY : PAPER_WALLPAPER_KEY;
-
-	const storedWallpaper = window.localStorage.getItem(storageKey);
-
-	if (
-		theme === "paper" &&
-		(storedWallpaper === "newspaper" || storedWallpaper === "paper")
-	) {
-		return storedWallpaper;
-	}
-
-	if (
-		theme === "sky" &&
-		(storedWallpaper === "stars" || storedWallpaper === "electric")
-	) {
-		return storedWallpaper;
-	}
-
-	return getDefaultWallpaper(theme);
-}
+import {
+	getCurrentTheme,
+	getStoredWallpaper,
+	saveWallpaper,
+	type Theme,
+	type Wallpaper,
+} from "@/lib/theme-storage";
 
 export function WallpaperSwitcher() {
 	const [isMounted, setIsMounted] = useState(false);
@@ -47,7 +18,7 @@ export function WallpaperSwitcher() {
 
 	useEffect(() => {
 		function synchronizeWallpaper() {
-			const currentTheme = getTheme();
+			const currentTheme = getCurrentTheme();
 			const currentWallpaper = getStoredWallpaper(currentTheme);
 
 			setTheme(currentTheme);
@@ -81,12 +52,7 @@ export function WallpaperSwitcher() {
 					? "electric"
 					: "stars";
 
-		const storageKey =
-			theme === "sky" ? SKY_WALLPAPER_KEY : PAPER_WALLPAPER_KEY;
-
-		window.localStorage.setItem(storageKey, nextWallpaper);
-
-		document.documentElement.dataset.wallpaper = nextWallpaper;
+		saveWallpaper(theme, nextWallpaper);
 
 		setWallpaper(nextWallpaper);
 	}

@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      98.css:
+        specifier: ^0.1.21
+        version: 0.1.21
+      js-cookie:
+        specifier: ^3.0.8
+        version: 3.0.8
       next:
         specifier: 16.2.10
         version: 16.2.10(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -24,6 +30,9 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4
         version: 4.3.2
+      '@types/js-cookie':
+        specifier: ^3.0.6
+        version: 3.0.6
       '@types/node':
         specifier: ^20
         version: 20.19.43
@@ -41,6 +50,9 @@ importers:
         version: 5.9.3
 
 packages:
+
+  98.css@0.1.21:
+    resolution: {integrity: sha512-ddk5qtUWyapM0Bzd5jwGExoE5fdSEGrP+F5VbYjyZLf2c9UVmn6w2NPTvCsoD4BWdGsjdLjlkQGhWwWTJcYQJQ==}
 
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
@@ -425,6 +437,9 @@ packages:
   '@tailwindcss/postcss@4.3.2':
     resolution: {integrity: sha512-rjVWYCa7Ngbi5AarT6k8TkxUG3Wl1QKzHdIZVsjZSzf36Jmo2IKZt/NHRAwly8oDkbBOH0YTu+CHuf9jPxMc+g==}
 
+  '@types/js-cookie@3.0.6':
+    resolution: {integrity: sha512-wkw9yd1kEXOPnvEeEV1Go1MmxtBJL0RR79aOTAApecWFVu7w0NNXNqhcWgvw2YgZDYadliXkl14pa3WXw5jlCQ==}
+
   '@types/node@20.19.43':
     resolution: {integrity: sha512-6oYBAi5ikg4Pl+kGsoYtawUMBT2zZMCvPNF7pVLnHZfd1zf38DRiWn/gT01RYCdUqkv7Fhr+C9ot4/tb+2sVvA==}
 
@@ -464,6 +479,9 @@ packages:
   jiti@2.7.0:
     resolution: {integrity: sha512-AC/7JofJvZGrrneWNaEnJeOLUx+JlGt7tNa0wZiRPT4MY1wmfKjt2+6O2p2uz2+skll8OZZmJMNqeke7kKbNgQ==}
     hasBin: true
+
+  js-cookie@3.0.8:
+    resolution: {integrity: sha512-yeJd4aNAdYZQjaon2bpD/Gb0B/omw7HQOsynXXcOiWVCacbBcPlgn8S/d1X6blFSaHao7ozqtW7NZW19xpCtIw==}
 
   lightningcss-android-arm64@1.32.0:
     resolution: {integrity: sha512-YK7/ClTt4kAK0vo6w3X+Pnm0D2cf2vPHbhOXdoNti1Ga0al1P4TBZhwjATvjNwLEBCnKvjJc2jQgHXH0NEwlAg==}
@@ -636,6 +654,8 @@ packages:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
 snapshots:
+
+  98.css@0.1.21: {}
 
   '@alloc/quick-lru@5.2.0': {}
 
@@ -894,6 +914,8 @@ snapshots:
       postcss: 8.5.16
       tailwindcss: 4.3.2
 
+  '@types/js-cookie@3.0.6': {}
+
   '@types/node@20.19.43':
     dependencies:
       undici-types: 6.21.0
@@ -924,6 +946,8 @@ snapshots:
   graceful-fs@4.2.11: {}
 
   jiti@2.7.0: {}
+
+  js-cookie@3.0.8: {}
 
   lightningcss-android-arm64@1.32.0:
     optional: true

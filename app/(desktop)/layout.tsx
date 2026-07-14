@@ -1,5 +1,8 @@
 import type { ReactNode } from "react";
 
+import "98.css";
+import "./desktop.css";
+
 type DesktopLayoutProps = Readonly<{
 	children: ReactNode;
 }>;

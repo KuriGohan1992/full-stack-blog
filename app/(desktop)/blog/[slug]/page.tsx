@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -10,76 +9,92 @@ type BlogPostPageProps = Readonly<{
 	}>;
 }>;
 
-export async function generateMetadata({
-	params,
-}: BlogPostPageProps): Promise<Metadata> {
-	const { slug } = await params;
-
-	const post = mockPosts.find((candidatePost) => candidatePost.slug === slug);
-
-	if (!post) {
-		return {
-			title: "Entry not found",
-		};
-	}
-
-	return {
-		title: post.title,
-		description: post.excerpt,
-	};
-}
+const dateFormatter = new Intl.DateTimeFormat("en-PH", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+});
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
 	const { slug } = await params;
 
-	const post = mockPosts.find((candidatePost) => candidatePost.slug === slug);
+	const post = mockPosts.find((currentPost) => currentPost.slug === slug);
 
 	if (!post) {
 		notFound();
 	}
 
+	const formattedDate = dateFormatter.format(new Date(post.createdAt));
+
 	return (
-		<main className="mx-auto max-w-5xl py-8">
-			<article className="desktop-window">
-				<header className="desktop-title-bar">
-					<span>{post.title} - Chronicle</span>
+		<main className="desktop-area">
+			<div className="desktop-icons">
+				<Link href="/blog" className="desktop-icon">
+					<span className="desktop-icon__image">📁</span>
 
-					<div className="flex gap-1">
-						<span className="desktop-window-button" aria-hidden="true">
-							_
-						</span>
+					<span className="desktop-icon__label">All Posts</span>
+				</Link>
+			</div>
 
-						<span className="desktop-window-button" aria-hidden="true">
-							□
-						</span>
+			<div className="window post-window">
+				<div className="title-bar">
+					<div className="title-bar-text">{post.title}</div>
 
-						<span className="desktop-window-button" aria-hidden="true">
-							×
-						</span>
+					<div className="title-bar-controls">
+						<button aria-label="Minimize" />
+
+						<button aria-label="Maximize" />
+
+						<Link href="/blog" aria-label="Close" className="close-button" />
 					</div>
-				</header>
-
-				<div className="p-5 sm:p-8">
-					<p className="font-mono text-sm">Individual post desktop interface</p>
-
-					<h1 className="mt-4 text-3xl font-bold">{post.title}</h1>
-
-					<p className="mt-4 leading-7">{post.body}</p>
-
-					<section className="mt-8 border-2 border-gray-700 bg-white p-4">
-						<h2 className="text-xl font-bold">Comments</h2>
-
-						<p className="mt-2">
-							The real comment list and form will be connected after the
-							database schema.
-						</p>
-					</section>
-
-					<Link href="/blog" className="mt-6 inline-block font-bold underline">
-						← Return to the archive
-					</Link>
 				</div>
-			</article>
+
+				<div className="menu-bar">
+					<button type="button">File</button>
+
+					<button type="button">Edit</button>
+
+					<button type="button">View</button>
+
+					<button type="button">Help</button>
+				</div>
+
+				<div className="window-body">
+					<header className="post-header">
+						<p className="post-date">
+							<time dateTime={post.createdAt}>{formattedDate}</time>
+						</p>
+
+						<h1>{post.title}</h1>
+
+						<div className="post-tags">
+							{post.tags.map((tag) => (
+								<span key={tag}>#{tag}</span>
+							))}
+						</div>
+					</header>
+
+					<hr />
+
+					<article className="post-content">
+						<p>{post.body}</p>
+					</article>
+
+					<hr />
+
+					<section className="comments-placeholder">
+						<h2>Comments</h2>
+
+						<p>Comments will appear here once the database is connected.</p>
+					</section>
+				</div>
+
+				<div className="status-bar">
+					<p className="status-bar-field">Post loaded successfully</p>
+
+					<p className="status-bar-field">Chronicle</p>
+				</div>
+			</div>
 		</main>
 	);
 }

@@ -1,0 +1,18 @@
+.desktop-background {
+	min-height: 100vh;
+	background: teal;
+}
+
+.desktop-area {
+	min-height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem;
+}
+
+.desktop-icons {
+	position: absolute;
+	top: 1rem;
+	left: 1rem;
+}

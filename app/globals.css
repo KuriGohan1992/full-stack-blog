@@ -19,7 +19,6 @@
 
 	--link-color: #0000ee;
 	--link-hover-color: #000088;
-	--link-visited-color: #551a8b;
 
 	--input-background: #fff;
 	--input-border-color: #777;
@@ -62,7 +61,6 @@ html[data-theme="sky"] {
 
 	--link-color: #7cd7ff;
 	--link-hover-color: #d38cff;
-	--link-visited-color: #bf8cff;
 
 	--input-background: #050b16;
 	--input-border-color: #3373b6;
@@ -155,12 +153,10 @@ select {
 	font-family: "Times New Roman", Times, serif;
 	font-size: 1rem;
 	font-weight: normal;
-	text-decoration: underline;
 }
 
-.site-link:visited,
-.tag-link:visited {
-	color: var(--link-visited-color);
+.site-link {
+	text-decoration: underline;
 }
 
 .site-link:hover,
