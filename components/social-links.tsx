@@ -4,17 +4,17 @@ const socialLinks = [
 	{
 		href: "https://github.com/KuriGohan1992",
 		label: "GitHub",
-		image: "/social/github.jpg",
+		image: "/socials/old-github.png",
 	},
 	{
-		href: "www.linkedin.com/in/cham-mendez",
+		href: "https://www.linkedin.com/in/cham-mendez/",
 		label: "LinkedIn",
-		image: "/social/linkedin.jpg",
+		image: "/socials/old-linkedin.png",
 	},
 	{
 		href: "mailto:chammendez92905@gmail.com",
 		label: "Email",
-		image: "/social/email.jpg",
+		image: "/socials/old-mail.png",
 	},
 ] as const;
 

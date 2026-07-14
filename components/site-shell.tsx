@@ -4,6 +4,7 @@ import { SiteLogo } from "./site-logo";
 import { SiteNavigation } from "./site-navigation";
 import { SocialLinks } from "./social-links";
 import { ThemeSwitcher } from "./theme-switcher";
+import { WallpaperSwitcher } from "./wallpaper-switcher";
 
 type SiteShellProps = Readonly<{
 	children: ReactNode;
@@ -25,6 +26,27 @@ export function SiteShell({ children }: SiteShellProps) {
 					</div>
 				</div>
 
+				<div className="mb-2 grid gap-2 lg:hidden">
+					<section className="site-panel">
+						<h2 className="panel-header">Account</h2>
+
+						<div className="panel-body">
+							<p className="text-sm">Role: Visitor</p>
+
+							<p className="mt-1 text-sm">
+								Admin controls will appear here later.
+							</p>
+						</div>
+					</section>
+					<section className="site-panel">
+						<h2 className="panel-header">Theme</h2>
+
+						<div className="panel-body text-center">
+							<ThemeSwitcher />
+						</div>
+					</section>
+				</div>
+
 				<div className="site-layout-grid grid gap-2 lg:grid-cols-[220px_minmax(0,1fr)_220px]">
 					<aside className="hidden min-h-0 space-y-2 lg:block">
 						<section className="site-panel">
@@ -35,7 +57,6 @@ export function SiteShell({ children }: SiteShellProps) {
 							</div>
 						</section>
 
-
 						<section className="site-panel">
 							<h2 className="panel-header">Future corner</h2>
 
@@ -45,19 +66,18 @@ export function SiteShell({ children }: SiteShellProps) {
 								</p>
 							</div>
 						</section>
+						<section className="site-panel">
+							<h2 className="panel-header">Alternate background</h2>
+
+							<div className="panel-body">
+								<WallpaperSwitcher />
+							</div>
+						</section>
 					</aside>
 
 					<main className="site-center-scroll">{children}</main>
 
-					<aside className="min-h-0 space-y-2">
-						<section className="site-panel">
-							<h2 className="panel-header">Theme</h2>
-
-							<div className="panel-body">
-								<ThemeSwitcher />
-							</div>
-						</section>
-
+					<aside className="hidden min-h-0 space-y-2 lg:block">
 						<section className="site-panel">
 							<h2 className="panel-header">Account</h2>
 
@@ -71,6 +91,14 @@ export function SiteShell({ children }: SiteShellProps) {
 						</section>
 
 						<section className="site-panel">
+							<h2 className="panel-header">Theme</h2>
+
+							<div className="panel-body text-center">
+								<ThemeSwitcher />
+							</div>
+						</section>
+
+						<section className="site-panel">
 							<h2 className="panel-header">Links</h2>
 
 							<div className="panel-body">
@@ -79,6 +107,22 @@ export function SiteShell({ children }: SiteShellProps) {
 						</section>
 					</aside>
 				</div>
+
+				<section className="site-panel mt-2 lg:hidden">
+					<h2 className="panel-header">Alternate background</h2>
+
+					<div className="panel-body">
+						<WallpaperSwitcher />
+					</div>
+				</section>
+
+				<section className="site-panel mt-2 lg:hidden">
+					<h2 className="panel-header">Links</h2>
+
+					<div className="panel-body">
+						<SocialLinks />
+					</div>
+				</section>
 			</div>
 		</div>
 	);
