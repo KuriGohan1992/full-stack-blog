@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 type BlogFiltersProps = Readonly<{
 	tags: string[];
@@ -8,10 +8,52 @@ type BlogFiltersProps = Readonly<{
 	query: string;
 }>;
 
-export function BlogFilters({ tags, selectedTags, query }: BlogFiltersProps) {
+const BLOG_SCROLL_STORAGE_KEY = "chronicle-blog-scroll-position";
+
+export function BlogFilters({
+	tags,
+	selectedTags,
+	query,
+}: BlogFiltersProps) {
 	const formRef = useRef<HTMLFormElement>(null);
 
+	useEffect(() => {
+		const storedScrollPosition = window.sessionStorage.getItem(
+			BLOG_SCROLL_STORAGE_KEY,
+		);
+
+		if (storedScrollPosition === null) {
+			return;
+		}
+
+		window.sessionStorage.removeItem(BLOG_SCROLL_STORAGE_KEY);
+
+		const scrollPosition = Number(storedScrollPosition);
+
+		if (!Number.isFinite(scrollPosition)) {
+			return;
+		}
+
+		requestAnimationFrame(() => {
+			requestAnimationFrame(() => {
+				window.scrollTo({
+					top: scrollPosition,
+					left: 0,
+					behavior: "auto",
+				});
+			});
+		});
+	}, []);
+
+	function saveScrollPosition() {
+		window.sessionStorage.setItem(
+			BLOG_SCROLL_STORAGE_KEY,
+			String(window.scrollY),
+		);
+	}
+
 	function submitFilters() {
+		saveScrollPosition();
 		formRef.current?.requestSubmit();
 	}
 
@@ -23,11 +65,15 @@ export function BlogFilters({ tags, selectedTags, query }: BlogFiltersProps) {
 		}
 
 		for (const element of form.elements) {
-			if (element instanceof HTMLInputElement && element.type === "checkbox") {
+			if (
+				element instanceof HTMLInputElement &&
+				element.type === "checkbox"
+			) {
 				element.checked = false;
 			}
 		}
 
+		saveScrollPosition();
 		form.requestSubmit();
 	}
 
@@ -49,7 +95,11 @@ export function BlogFilters({ tags, selectedTags, query }: BlogFiltersProps) {
 						const inputId = `tag-${tag}`;
 
 						return (
-							<label key={tag} htmlFor={inputId} className="blog-tag-option">
+							<label
+								key={tag}
+								htmlFor={inputId}
+								className="blog-tag-option"
+							>
 								<input
 									id={inputId}
 									name="tag"

@@ -116,7 +116,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 				{hasActiveFilters && (
 					<p>
 						{filteredPosts.length} matching{" "}
-						{filteredPosts.length === 1 ? "post" : "posts"}.
+						{filteredPosts.length === 1 ? "post" : "posts"}
 					</p>
 				)}
 			</div>

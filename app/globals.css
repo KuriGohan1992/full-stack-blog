@@ -598,6 +598,17 @@ html[data-theme="sky"] .lightning-decoration {
 		font-size: 0.875rem;
 		font-weight: normal;
 	}
+
+	.wallpaper-option,
+	.wallpaper-option-placeholder {
+		width: 75%;
+		margin-inline: auto;
+	}
+
+	.wallpaper-option__preview {
+		width: 100%;
+		border: 1px solid #000;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
