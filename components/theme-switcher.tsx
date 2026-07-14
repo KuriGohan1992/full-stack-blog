@@ -2,27 +2,26 @@
 
 import { useEffect, useState } from "react";
 
-type Theme = "parchment" | "lightning";
+type Theme = "paper" | "sky";
 
 const THEME_STORAGE_KEY = "chronicle-theme";
 
+function getCurrentTheme(): Theme {
+	return document.documentElement.dataset.theme === "sky" ? "sky" : "paper";
+}
+
 export function ThemeSwitcher() {
-	const [theme, setTheme] = useState<Theme>("parchment");
+	const [theme, setTheme] = useState<Theme>("paper");
 
 	useEffect(() => {
-		const currentTheme = document.documentElement.dataset.theme;
-
-		if (currentTheme === "parchment" || currentTheme === "lightning") {
-			setTheme(currentTheme);
-		}
+		setTheme(getCurrentTheme());
 	}, []);
 
 	function switchTheme() {
-		const nextTheme: Theme = theme === "parchment" ? "lightning" : "parchment";
+		const nextTheme: Theme = theme === "paper" ? "sky" : "paper";
 
 		document.documentElement.dataset.theme = nextTheme;
 		window.localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
-
 		setTheme(nextTheme);
 	}
 
@@ -30,10 +29,10 @@ export function ThemeSwitcher() {
 		<button
 			type="button"
 			onClick={switchTheme}
-			aria-pressed={theme === "lightning"}
-			className="site-button w-full"
+			className="site-button"
+			aria-label={`Switch from ${theme} theme`}
 		>
-			Switch to {theme === "parchment" ? "lightning" : "parchment"}
+			Switch Theme
 		</button>
 	);
 }
