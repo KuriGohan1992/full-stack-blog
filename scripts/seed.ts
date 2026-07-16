@@ -25,8 +25,8 @@ type NewPost = typeof posts.$inferInsert;
 
 const seedPosts: NewPost[] = [
 	{
-		title: "We Actually Don't Have Free Will",
-		slug: "we-actually-dont-have-free-will",
+		title: "Free Will is an Illusion",
+		slug: "free-will-is-an-illusion",
 		body: `As humans, most of us prefer not to talk about free will. We do not even want to consider the possibility that we might not have it. However, much of philosophy argues against the idea that we are in control. But if there is something that we can agree on, it is that almost all of us feel like we have free will—we feel that we have control over the decisions we make. Yet there are numerous logical arguments that can prove otherwise.
 
 First of all, let us define what being “free” means. Being free is defined by Google as “not under the control or in the power of another; able to act or be done as one wishes.” So let us consider what needs to happen in order for us to have free will—to act as we wish.
@@ -68,7 +68,7 @@ Our lives are governed by causality. We do not control our wants, we are bound b
 Our free will may be an illusion. How this statement affects you is seemingly up to you—but perhaps even that reaction will be determined by your environment, mood, past experiences, and the influence of other people.
 
 The world may be a finished book, and we may merely be characters following the script. We were not even the ones who chose the names we would carry in this story. How, then, could we believe that we are fully in control?`,
-		coverImage: null,
+		coverImage: "/posts/free-will.jpg",
 		contentFormat: "plain",
 		tags: ["personal", "reflection", "philosophy"],
 		createdAt: new Date("2026-07-16T09:00:00+08:00"),

@@ -76,7 +76,6 @@ export function BlogFilters({ tags, selectedTags, query }: BlogFiltersProps) {
 			method="get"
 			action="/blog"
 			className="blog-filter-fieldset"
-			onChange={submitFilters}
 		>
 			{query && <input type="hidden" name="q" value={query} />}
 
@@ -94,7 +93,8 @@ export function BlogFilters({ tags, selectedTags, query }: BlogFiltersProps) {
 									name="tag"
 									type="checkbox"
 									value={tag}
-									defaultChecked={selectedTags.includes(tag)}
+									checked={selectedTags.includes(tag)}
+									onChange={submitFilters}
 								/>
 
 								<span>{tag}</span>

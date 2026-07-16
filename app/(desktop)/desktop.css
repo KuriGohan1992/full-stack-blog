@@ -8,8 +8,6 @@
 	color: #000;
 }
 
-.desktop-background,
-.desktop-background button,
 .desktop-background input,
 .desktop-background textarea,
 .desktop-background select {
@@ -17,69 +15,137 @@
 }
 
 .desktop-area {
-	display: grid;
-	min-height: 100vh;
-	place-items: center;
-	padding: 2rem;
+	box-sizing: border-box;
+	display: flex;
+	height: 100dvh;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	padding: 1.5rem;
+	background-color: #008080;
+	background-image: url("/backgrounds/windows95.jpg");
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
 }
 
 .post-window {
-	width: min(96vw, 1100px);
+	display: flex;
+	width: min(68rem, 100%);
+	height: calc(100dvh - 3rem);
+	min-height: 0;
+	flex-direction: column;
+	overflow: hidden;
 }
+
+/* Windows chrome typography */
+
+.title-bar-text,
+.post-menu__item,
+.status-bar-field {
+	font-family: "Pixelated MS Sans Serif", Arial, sans-serif;
+}
+
+.title-bar-text {
+	font-size: 0.75rem;
+}
+
+/* Post action toolbar */
 
 .post-menu {
 	display: flex;
+	flex: none;
 	align-items: stretch;
+	overflow-x: auto;
+	border-top: 1px solid #fff;
 	border-bottom: 1px solid #808080;
 	background: #c0c0c0;
 }
 
 .post-menu__item {
+	box-sizing: border-box;
 	display: inline-flex;
-	min-width: 4.75rem;
+	min-width: 5rem;
+	min-height: 2rem;
+	flex: none;
 	align-items: center;
 	justify-content: center;
-	border: 0;
-	border-right: 1px solid #808080;
+
+	border-top: 2px solid #fff;
+	border-right: 2px solid #404040;
+	border-bottom: 2px solid #404040;
+	border-left: 2px solid #fff;
 	border-radius: 0;
-	background: transparent;
+
+	background: #c0c0c0;
 	padding: 0.3rem 0.75rem;
 	color: #000;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 0.875rem;
+	font-size: 0.75rem;
 	font-weight: normal;
-	line-height: 1.2;
+	line-height: 1;
+	text-align: center;
 	text-decoration: none;
+	text-shadow: none;
 }
 
+.post-menu__item:link,
 .post-menu__item:visited {
 	color: #000;
+	text-decoration: none;
 }
 
 .post-menu__item:hover:not(:disabled) {
 	background: #000080;
 	color: #fff;
 	text-decoration: none;
+	text-shadow: none;
+}
+
+.post-menu__item:active:not(:disabled) {
+	border-top-color: #404040;
+	border-right-color: #fff;
+	border-bottom-color: #fff;
+	border-left-color: #404040;
+	padding-top: calc(0.3rem + 1px);
+	padding-right: calc(0.75rem - 1px);
+	padding-bottom: calc(0.3rem - 1px);
+	padding-left: calc(0.75rem + 1px);
 }
 
 .post-menu__item:focus-visible {
 	outline: 1px dotted #000;
-	outline-offset: -3px;
+	outline-offset: -5px;
 }
 
 .post-menu__item:disabled {
 	cursor: default;
+	border-top-color: #fff;
+	border-right-color: #404040;
+	border-bottom-color: #404040;
+	border-left-color: #fff;
+	background: #c0c0c0;
 	color: #808080;
 	text-shadow: 1px 1px #fff;
 }
 
 .post-window-body {
-	min-height: 420px;
+	min-height: 0;
+	flex: 1;
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;
 	background: #fff;
 	padding: 1.25rem;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 1rem;
 	line-height: 1.5;
+
+	scrollbar-width: none;
+	-ms-overflow-style: none;
+}
+
+.post-window-body::-webkit-scrollbar {
+	display: none;
 }
 
 .post-header {
@@ -108,11 +174,31 @@
 	font-size: 0.875rem;
 }
 
+.post-cover {
+	margin: 1rem 0;
+	overflow: hidden;
+	border: 1px solid #808080;
+	background: #c0c0c0;
+}
+
+.post-cover__image {
+	display: block;
+	width: 100%;
+	height: auto;
+	max-height: 32rem;
+	object-fit: cover;
+}
+
 .post-content {
 	min-height: 180px;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 1rem;
 	line-height: 1.6;
+	white-space: pre-wrap;
+}
+
+.post-content p {
+	margin-top: 0;
 }
 
 .comments-placeholder h2 {
@@ -125,28 +211,48 @@
 	margin: 0;
 }
 
+.post-status-bar {
+	flex: none;
+}
+
+.post-status-bar .status-bar-field {
+	display: flex;
+	width: 100%;
+	flex: 1;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+}
+
 @media (max-width: 640px) {
 	.desktop-area {
-		display: block;
-		padding: 0.4rem;
+		padding: 0.5rem;
 	}
 
 	.post-window {
-		width: 100%;
+		height: calc(100dvh - 1rem);
 	}
 
 	.post-menu {
-		flex-wrap: wrap;
+		width: 100%;
 	}
 
 	.post-menu__item {
-		min-width: auto;
+		min-width: 4.25rem;
 		flex: 1;
-		padding-inline: 0.45rem;
+		padding-inline: 0.4rem;
+	}
+
+	.post-menu__item:active:not(:disabled) {
+		padding-right: calc(0.4rem - 1px);
+		padding-left: calc(0.4rem + 1px);
 	}
 
 	.post-window-body {
-		min-height: 70vh;
 		padding: 0.75rem;
+	}
+
+	.post-header h1 {
+		font-size: clamp(1.65rem, 9vw, 2.25rem);
 	}
 }
