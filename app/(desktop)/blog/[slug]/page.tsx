@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { PostContent } from "@/components/post-content";
 import { WindowControls } from "@/components/window-controls";
 import { getPostBySlug } from "@/lib/db/queries";
 
@@ -95,7 +96,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 					<hr />
 
 					<section id="post-content" className="post-content">
-						<p>{post.body}</p>
+						<PostContent body={post.body} contentFormat={post.contentFormat} />
 					</section>
 
 					<hr />
