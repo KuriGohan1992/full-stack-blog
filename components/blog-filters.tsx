@@ -10,11 +10,7 @@ type BlogFiltersProps = Readonly<{
 
 const BLOG_SCROLL_STORAGE_KEY = "chronicle-blog-scroll-position";
 
-export function BlogFilters({
-	tags,
-	selectedTags,
-	query,
-}: BlogFiltersProps) {
+export function BlogFilters({ tags, selectedTags, query }: BlogFiltersProps) {
 	const formRef = useRef<HTMLFormElement>(null);
 
 	useEffect(() => {
@@ -65,10 +61,7 @@ export function BlogFilters({
 		}
 
 		for (const element of form.elements) {
-			if (
-				element instanceof HTMLInputElement &&
-				element.type === "checkbox"
-			) {
+			if (element instanceof HTMLInputElement && element.type === "checkbox") {
 				element.checked = false;
 			}
 		}
@@ -95,11 +88,7 @@ export function BlogFilters({
 						const inputId = `tag-${tag}`;
 
 						return (
-							<label
-								key={tag}
-								htmlFor={inputId}
-								className="blog-tag-option"
-							>
+							<label key={tag} htmlFor={inputId} className="blog-tag-option">
 								<input
 									id={inputId}
 									name="tag"

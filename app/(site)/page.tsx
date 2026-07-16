@@ -1,17 +1,17 @@
 import Link from "next/link";
 
 import { PostCard } from "@/components/post-card";
-import { mockPosts } from "@/lib/mock-posts";
+import { getRecentPosts } from "@/lib/db/queries";
 
 const RECENT_POST_LIMIT = 4;
 
-export default function HomePage() {
-	const recentPosts = mockPosts.slice(0, RECENT_POST_LIMIT);
+export default async function HomePage() {
+	const recentPosts = await getRecentPosts(RECENT_POST_LIMIT);
 
 	return (
 		<div>
 			<section className="site-panel p-2">
-				<h2 className="site-heading text-2xl">Welcome to Chronicle</h2>
+				<h1 className="site-heading text-2xl">Welcome to Chronicle</h1>
 
 				<p className="mt-2">
 					Chronicle is my personal corner of the web for projects, programming
@@ -20,8 +20,8 @@ export default function HomePage() {
 				</p>
 
 				<p className="mt-2">
-					The site changes between an adventurous parchment archive and an
-					electric late-night theme.
+					The site changes between an adventurous paper archive and an electric
+					late-night theme.
 				</p>
 			</section>
 
@@ -44,9 +44,11 @@ export default function HomePage() {
 				</header>
 
 				<div className="recent-entries-list">
-					{recentPosts.map((post) => (
-						<PostCard key={post.id} post={post} compact />
-					))}
+					{recentPosts.length > 0 ? (
+						recentPosts.map((post) => <PostCard key={post.id} post={post} />)
+					) : (
+						<p className="p-3">No entries have been published yet.</p>
+					)}
 				</div>
 			</section>
 
