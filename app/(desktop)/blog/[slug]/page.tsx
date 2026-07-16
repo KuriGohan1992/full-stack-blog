@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { CommentForm } from "@/components/comment-form";
+import { CommentList } from "@/components/comment-list";
 import { PostContent } from "@/components/post-content";
 import { WindowControls } from "@/components/window-controls";
-import { getPostBySlug } from "@/lib/db/queries";
+import { getApprovedCommentsByPostId, getPostBySlug } from "@/lib/db/queries";
 
 type BlogPostPageProps = Readonly<{
 	params: Promise<{
@@ -25,6 +27,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 		notFound();
 	}
 
+	const postComments = await getApprovedCommentsByPostId(post.id);
 	const formattedDate = dateFormatter.format(post.createdAt);
 
 	const isAdmin = false;
@@ -101,12 +104,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
 					<hr />
 
-					<section id="comments" className="comments-placeholder">
+					<section id="comments" className="comments-section">
 						<h2>Comments</h2>
 
-						<p>
-							Comments will appear here once the comment feature is connected.
-						</p>
+						<h3>Leave a comment</h3>
+
+						<CommentForm postId={post.id} slug={post.slug} />
+
+						<div className="comments-section__list">
+							<CommentList comments={postComments} />
+						</div>
 					</section>
 				</div>
 

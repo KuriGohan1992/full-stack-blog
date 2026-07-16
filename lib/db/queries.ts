@@ -3,7 +3,7 @@ import "server-only";
 import { and, arrayContains, count, desc, eq, ilike, or } from "drizzle-orm";
 
 import { db } from "@/lib/db";
-import { posts } from "@/lib/db/schema";
+import { comments, posts } from "@/lib/db/schema";
 
 const DEFAULT_POSTS_PER_PAGE = 4;
 
@@ -13,6 +13,14 @@ type GetPostsOptions = Readonly<{
 	page?: number;
 	postsPerPage?: number;
 }>;
+
+export async function getApprovedCommentsByPostId(postId: string) {
+	return db
+		.select()
+		.from(comments)
+		.where(and(eq(comments.postId, postId), eq(comments.approved, true)))
+		.orderBy(desc(comments.createdAt));
+}
 
 export async function getRecentPosts(limit = 4) {
 	return db.select().from(posts).orderBy(desc(posts.createdAt)).limit(limit);
