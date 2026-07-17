@@ -4,8 +4,7 @@ Chronicle is a full-stack personal blog built with Next.js, React, TypeScript, T
 
 ## Live Project
 
-- **Live site:** `ADD_YOUR_VERCEL_URL_HERE`
-- **Repository:** `ADD_YOUR_GITHUB_URL_HERE`
+- **Live site:** `chronicle-full-stack-blog-mendez.vercel.app`
 
 ## Project Purpose
 
