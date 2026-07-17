@@ -1,36 +1,315 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Chronicle
 
-## Getting Started
+Chronicle is a full-stack personal blog built with Next.js, React, TypeScript, Tailwind CSS, Drizzle ORM, and Neon Postgres. It combines a retro personal-web aesthetic with a complete database-backed publishing workflow, guest comments, tag filtering, Markdown support, admin post management, and comment moderation.
 
-First, run the development server:
+## Live Project
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Live site:** `ADD_YOUR_VERCEL_URL_HERE`
+- **Repository:** `ADD_YOUR_GITHUB_URL_HERE`
+
+## Project Purpose
+
+This project was created for Mini-Project 2: **Full-Stack Blog with Comments**.
+
+Its purpose is to demonstrate the complete full-stack loop:
+
+- defining a relational database schema;
+- generating and applying SQL migrations;
+- reading data through Server Components;
+- performing mutations through Server Actions;
+- validating form input with Zod;
+- invalidating affected routes after mutations;
+- persisting data in a live Neon Postgres database;
+- partially prerendering pages with dynamic streamed content.
+
+## Features
+
+### Public features
+
+- Database-backed homepage with recent posts
+- Blog archive with search, tag filtering, pagination, result counts, and dynamic comment counts
+- Individual blog post pages
+- Plain-text and Markdown rendering
+- Guest comment submission without registration
+- Field-level validation errors
+- Comment persistence after hard refresh
+- Responsive desktop and mobile layouts
+- Loading states and error handling
+- Custom 404 page
+- Theme and wallpaper switching
+- Vercel Web Analytics
+
+### Administrator features
+
+- Shared-password administrator sign-in
+- Server-created administrator session cookie
+- Sign-out
+- Create posts
+- Automatically generate a slug from the title
+- Edit existing posts
+- Delete posts with confirmation
+- Hide and restore comments
+- Award and unaward comments with a star
+- Admin controls on blog cards and individual post pages
+- Markdown edit/preview workflow
+
+## Technology Stack
+
+- **Framework:** Next.js 16 App Router
+- **UI:** React 19
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS v4 and custom retro desktop styles
+- **Database:** Neon Postgres
+- **ORM:** Drizzle ORM using `drizzle-orm/neon-http`
+- **Migrations:** Drizzle Kit
+- **Validation:** Zod
+- **Package manager:** pnpm
+- **Formatting and linting:** Biome
+- **Deployment:** Vercel
+- **Analytics:** Vercel Web Analytics
+
+## Database Schema
+
+The project includes the required `posts` and `comments` tables.
+
+### `posts`
+
+Required columns:
+
+- `id`
+- `title`
+- `slug`
+- `body`
+- `createdAt`
+
+Additional columns:
+
+- `coverImage`
+- `contentFormat`
+- `tags`
+- `updatedAt`
+
+### `comments`
+
+Required columns:
+
+- `id`
+- `postId`
+- `authorName`
+- `body`
+- `createdAt`
+
+Additional columns:
+
+- `approved`
+- `awarded`
+
+The `comments.postId` foreign key uses cascade deletion:
+
+```ts
+.references(() => posts.id, {
+  onDelete: "cascade",
+})
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Deleting a post therefore also deletes its associated comments.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```text
+app/
+├── (desktop)/
+│   ├── blog/[slug]/
+│   ├── edit/[id]/
+│   └── new/
+├── (site)/
+│   ├── blog/
+│   ├── resources/
+│   └── page.tsx
+├── error.tsx
+├── layout.tsx
+└── not-found.tsx
 
-## Learn More
+components/
+├── admin-login-overlay.tsx
+├── admin-post-card-actions.tsx
+├── admin-post-form.tsx
+├── comment-form.tsx
+├── comment-list.tsx
+├── comment-submit-button.tsx
+├── post-card.tsx
+├── post-content.tsx
+└── site-shell.tsx
 
-To learn more about Next.js, take a look at the following resources:
+lib/
+├── actions/
+│   ├── admin-auth.ts
+│   ├── comments.ts
+│   └── posts.ts
+├── auth/
+│   └── admin-session.ts
+└── db/
+    ├── index.ts
+    ├── queries.ts
+    └── schema.ts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+drizzle/
+scripts/
+└── seed.ts
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Prerequisites
 
-## Deploy on Vercel
+- Node.js 22 or another compatible current LTS release
+- pnpm
+- A Neon Postgres project
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Environment Variables
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Create a `.env.local` file in the project root:
+
+```env
+DATABASE_URL=
+ADMIN_PASSWORD=
+ADMIN_SESSION_SECRET=
+```
+
+- `DATABASE_URL` — Neon Postgres connection string
+- `ADMIN_PASSWORD` — shared password used by the administrator sign-in form
+- `ADMIN_SESSION_SECRET` — long random value used to protect the administrator session
+
+Do not commit `.env.local`.
+
+An optional `.env.example` can contain the same variable names with blank values.
+
+## Local Setup
+
+Clone the repository:
+
+```bash
+git clone ADD_YOUR_GITHUB_URL_HERE
+cd full-stack-blog
+```
+
+Install dependencies:
+
+```bash
+pnpm install
+```
+
+Create `.env.local` and add the required environment variables.
+
+Start the development server:
+
+```bash
+pnpm dev
+```
+
+Open `http://localhost:3000`.
+
+## Database Migrations
+
+This project uses committed SQL migrations generated by Drizzle Kit.
+
+Generate a migration after changing the schema:
+
+```bash
+pnpm drizzle-kit generate
+```
+
+Apply pending migrations:
+
+```bash
+pnpm drizzle-kit migrate
+```
+
+Migration files are stored in `drizzle/`.
+
+`drizzle-kit push` is not used as a substitute for committed SQL migrations.
+
+To inspect the database visually:
+
+```bash
+pnpm db:studio
+```
+
+## Seed Data
+
+Seed the database with:
+
+```bash
+pnpm db:seed
+```
+
+The seed script creates at least three posts and is designed to be rerunnable.
+
+## Server Actions and Validation
+
+All mutations use Server Actions with:
+
+```ts
+"use server";
+```
+
+Form input is validated with Zod and `safeParse()` before database access.
+
+Guest comment validation rules:
+
+- `authorName`: trimmed, minimum 1 character, maximum 80 characters
+- `body`: trimmed, minimum 10 characters, maximum 2,000 characters
+
+The comment form uses `useActionState()` for state, `useFormStatus()` for pending status, field-level validation feedback, and `maxLength` for character limits.
+
+## Cache Invalidation
+
+Mutations call `revalidatePath()` for affected routes.
+
+Examples:
+
+- New comment: individual post page and `/blog`
+- Create post: `/` and `/blog`
+- Edit post: `/`, `/blog`, and old/new post paths
+- Delete post: `/`, `/blog`, and deleted post path
+- Comment moderation: individual post page and `/blog`
+- Comment award: individual post page
+
+Client-side refreshes are not used as the only invalidation mechanism.
+
+## Partial Prerendering
+
+The original project brief refers to:
+
+```ts
+experimental: {
+  ppr: true,
+}
+```
+
+This project uses Next.js 16.2.10, where Partial Prerendering is enabled through Cache Components:
+
+```ts
+const nextConfig = {
+  cacheComponents: true,
+};
+```
+
+A production build confirms Partial Prerendering with the `◐` route indicator:
+
+```text
+◐  (Partial Prerender) prerendered as static HTML with dynamic server-streamed content
+```
+
+The blog cards also place dynamic comment counts behind `<Suspense>` boundaries.
+
+## Loading and Error Handling
+
+The project includes route loading states for the homepage, blog archive, individual posts, and protected post creation/editing pages.
+
+It also includes a global error boundary, a custom not-found page, and `notFound()` handling for nonexistent posts.
+
+## Author
+
+**Charl Emmanuel E. Mendez**
+
+Software Engineering Intern Project  
+Mini-Project 2 — Full-Stack Blog with Comments
