@@ -1,14 +1,14 @@
 import Link from "next/link";
 
 import { PostCard } from "@/components/post-card";
-import { getRecentPosts } from "@/lib/db/queries";
 import { isAdmin } from "@/lib/auth/admin-session";
+import { getRecentPosts } from "@/lib/db/queries";
 
 const RECENT_POST_LIMIT = 4;
 
 export default async function HomePage() {
 	const recentPosts = await getRecentPosts(RECENT_POST_LIMIT);
-const admin = await isAdmin();
+	const admin = await isAdmin();
 	return (
 		<div>
 			<section className="site-panel p-2">
@@ -44,7 +44,9 @@ const admin = await isAdmin();
 
 				<div className="recent-entries-list">
 					{recentPosts.length > 0 ? (
-						recentPosts.map((post) => <PostCard key={post.id} post={post} isAdmin={admin}/>)
+						recentPosts.map((post) => (
+							<PostCard key={post.id} post={post} isAdmin={admin} />
+						))
 					) : (
 						<p className="p-3">No entries have been published yet.</p>
 					)}

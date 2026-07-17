@@ -28,8 +28,6 @@ export function SiteShell({ children }: SiteShellProps) {
 
 				<div className="mb-2 grid gap-2 lg:hidden">
 					<section className="site-panel">
-						<h2 className="panel-header">Account</h2>
-
 						<AccountPanel />
 					</section>
 					<section className="site-panel">
@@ -56,6 +54,24 @@ export function SiteShell({ children }: SiteShellProps) {
 
 							<div className="panel-body">
 								<WallpaperSwitcher />
+							</div>
+						</section>
+						<section className="site-panel">
+							<h2 className="panel-header">Today's Obsession</h2>
+							<div className="overflow-hidden">
+								<video
+									autoPlay
+									loop
+									muted
+									playsInline
+									preload="metadata"
+									className="block h-20 w-full scale-150 object-cover sm:h-24"
+								>
+									<source
+										src="/videos/divergence-meter.webm"
+										type="video/mp4"
+									/>
+								</video>
 							</div>
 						</section>
 					</aside>
