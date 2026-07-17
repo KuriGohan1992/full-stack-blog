@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 
+import Link from "next/link";
+
 import { BlogFilters } from "@/components/blog-filters";
 import { Pagination } from "@/components/pagination";
 import { PostCard } from "@/components/post-card";
+import { isAdmin } from "@/lib/auth/admin-session";
 import { getAvailableTags, getPosts } from "@/lib/db/queries";
 
 export const metadata: Metadata = {
@@ -22,7 +25,7 @@ type BlogPageProps = Readonly<{
 
 export default async function BlogPage({ searchParams }: BlogPageProps) {
 	const resolvedSearchParams = await searchParams;
-
+	const admin = await isAdmin();
 	const originalQuery = resolvedSearchParams.q?.trim() ?? "";
 
 	const selectedTags =
@@ -51,9 +54,19 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 	return (
 		<section className="site-panel blog-archive">
 			<div className="blog-archive-intro">
-				<h1 className="site-heading text-3xl">All blog posts</h1>
+				<div className="flex flex-wrap items-start justify-between gap-3">
+					<div>
+						<h1 className="site-heading text-3xl">All blog posts</h1>
 
-				<p className="mt-1">Search the archive or filter posts by tag.</p>
+						<p className="mt-1">Search the archive or filter posts by tag.</p>
+					</div>
+
+					{admin && (
+						<Link href="/new" className="win98-button min-w-28">
+							New Post
+						</Link>
+					)}
+				</div>
 
 				<p className="blog-filter-note">
 					Note: When multiple tags are selected, a post must contain every
@@ -110,7 +123,9 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
 
 			<section className="blog-entry-list" aria-label="Blog entries">
 				{posts.length > 0 ? (
-					posts.map((post) => <PostCard key={post.id} post={post} />)
+					posts.map((post) => (
+						<PostCard key={post.id} post={post} isAdmin={admin} />
+					))
 				) : (
 					<div className="blog-empty-state">
 						<h2 className="site-heading text-xl">No entries found</h2>

@@ -1,32 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+
+import { AdminPostCardActions } from "@/components/admin-post-card-actions";
 import { CommentCount } from "@/components/comment-count";
-import { DEFAULT_POST_COVER } from "@/lib/constants";
 import type { posts } from "@/lib/db/schema";
 
 type Post = typeof posts.$inferSelect;
 
 type PostCardProps = Readonly<{
 	post: Post;
+	isAdmin?: boolean;
 }>;
 
-const dateFormatter = new Intl.DateTimeFormat("en-PH", {
-	dateStyle: "medium",
-});
+const FALLBACK_COVER_IMAGE = "/posts/placeholder.jpg";
 
-function createExcerpt(body: string) {
-	return body
-		.replace(/[#*_>`~[\]()!-]/g, " ")
+function createExcerpt(body: string): string {
+	const normalizedBody = body
+		.replace(/[#>*_`~-]/g, "")
 		.replace(/\s+/g, " ")
 		.trim();
+
+	return normalizedBody;
 }
 
-export function PostCard({ post }: PostCardProps) {
-	const formattedDate = dateFormatter.format(post.createdAt);
+export function PostCard({ post, isAdmin = false }: PostCardProps) {
+	const formattedDate = new Intl.DateTimeFormat("en-US", {
+		month: "short",
+		day: "numeric",
+		year: "numeric",
+	}).format(post.createdAt);
 
-	const coverSource = post.coverImage ?? DEFAULT_POST_COVER;
-
+	const coverSource = post.coverImage || FALLBACK_COVER_IMAGE;
 	const excerpt = createExcerpt(post.body);
 
 	return (
@@ -41,22 +46,33 @@ export function PostCard({ post }: PostCardProps) {
 				/>
 			</div>
 
-			<div className="min-w-0">
-				<div className="post-card__meta flex flex-wrap items-center gap-1">
-					<time dateTime={post.createdAt.toISOString()}>{formattedDate}</time>
+			<div className="relative min-w-0">
+				{isAdmin && (
+					<div className="mb-2 flex justify-end sm:absolute sm:top-0 sm:right-0 sm:mb-0">
+						<AdminPostCardActions postId={post.id} />
+					</div>
+				)}
 
-					<span aria-hidden="true">·</span>
+				<div className={isAdmin ? "sm:pr-36" : undefined}>
+					<div className="post-card__meta flex flex-wrap items-center gap-1">
+						<time dateTime={post.createdAt.toISOString()}>{formattedDate}</time>
 
-					<Suspense fallback={<span>Loading comments…</span>}>
-						<CommentCount postId={post.id} />
-					</Suspense>
-				</div>{" "}
-				<h2 className="site-heading mt-1 text-lg">
-					<Link href={`/blog/${post.slug}`} className="site-link">
-						{post.title}
-					</Link>
-				</h2>
+						<span aria-hidden="true">·</span>
+
+						<Suspense fallback={<span>Loading comments…</span>}>
+							<CommentCount postId={post.id} />
+						</Suspense>
+					</div>
+
+					<h2 className="site-heading mt-1 text-lg">
+						<Link href={`/blog/${post.slug}`} className="site-link">
+							{post.title}
+						</Link>
+					</h2>
+				</div>
+
 				<p className="post-card__excerpt mt-1 text-sm leading-5">{excerpt}</p>
+
 				<div className="mt-2 flex flex-wrap gap-1">
 					{[...post.tags].sort().map((tag) => (
 						<Link
