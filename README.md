@@ -306,10 +306,3 @@ The blog cards also place dynamic comment counts behind `<Suspense>` boundaries.
 The project includes route loading states for the homepage, blog archive, individual posts, and protected post creation/editing pages.
 
 It also includes a global error boundary, a custom not-found page, and `notFound()` handling for nonexistent posts.
-
-## Author
-
-**Charl Emmanuel E. Mendez**
-
-Software Engineering Intern Project  
-Mini-Project 2 — Full-Stack Blog with Comments

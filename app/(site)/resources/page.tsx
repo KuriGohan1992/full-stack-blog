@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 type Resource = Readonly<{
 	name: string;
 	description: string;
+	href?: string;
 }>;
 
 type ResourceSection = Readonly<{
@@ -43,7 +44,7 @@ const resourceSections: readonly ResourceSection[] = [
 	{
 		title: "Styling and interface",
 		description:
-			"The tools and visual references used for Chronicle's old-web and desktop-inspired design.",
+			"The tools, asset sources, and visual references used for Chronicle's old-web and desktop-inspired design.",
 		resources: [
 			{
 				name: "Tailwind CSS 4",
@@ -54,16 +55,31 @@ const resourceSections: readonly ResourceSection[] = [
 				name: "98.css",
 				description:
 					"Provides the Windows 98-inspired window, title bar, controls, status bar, and form appearance used on individual post pages.",
+				href: "https://jdan.github.io/98.css/",
 			},
 			{
-				name: "CSS custom properties",
+				name: "Make WordArt",
 				description:
-					"Power the paper and sky themes, wallpaper choices, panel colors, links, buttons, and shared site styling.",
+					"Used to create retro word-art graphics and title assets for the site.",
+				href: "https://www.makewordart.com/",
+			},
+			{
+				name: "CoolText",
+				description:
+					"Used to generate stylized Chronicle title and logo graphics.",
+				href: "https://cooltext.com/",
+			},
+			{
+				name: "Background Archive",
+				description:
+					"Source of the tiled old-web background textures used throughout Chronicle.",
+				href: "https://hekate2.github.io/website-tools/archive/backgrounds.html",
 			},
 			{
 				name: "HTTP Cats",
 				description:
 					"Supplies the illustrated HTTP 404 and 500 images used by Chronicle's not-found and error pages.",
+				href: "https://http.cat/",
 			},
 		],
 	},
@@ -202,9 +218,18 @@ export default function ResourcesPage() {
 									className="list-disc marker:text-(--link-color)"
 								>
 									<p className="leading-6">
-										<strong className="font-sans text-(--heading-color)">
-											{resource.name}
-										</strong>
+										{resource.href ? (
+											<a
+												href={resource.href}
+												target="_blank"
+												rel="noreferrer"
+												className="site-link"
+											>
+												<strong>{resource.name}</strong>
+											</a>
+										) : (
+											<strong>{resource.name}</strong>
+										)}
 
 										<span aria-hidden="true"> — </span>
 
