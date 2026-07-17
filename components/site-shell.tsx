@@ -13,7 +13,7 @@ type SiteShellProps = Readonly<{
 export function SiteShell({ children }: SiteShellProps) {
 	return (
 		<div className="site-background flex flex-col px-2 py-2 sm:px-3">
-			<div className="mx-auto flex h-full w-full max-w-[1440px] flex-col">
+			<div className="mx-auto flex h-full w-full max-w-360 flex-col">
 				<div className="site-logo-area">
 					<SiteLogo />
 				</div>
@@ -65,11 +65,11 @@ export function SiteShell({ children }: SiteShellProps) {
 									muted
 									playsInline
 									preload="metadata"
-									className="block h-20 w-full scale-150 object-cover sm:h-24"
+									className="block h-20 w-full scale-175 object-cover sm:h-24"
 								>
 									<source
 										src="/videos/divergence-meter.webm"
-										type="video/mp4"
+										type="video/webm"
 									/>
 								</video>
 							</div>
@@ -109,6 +109,21 @@ export function SiteShell({ children }: SiteShellProps) {
 					</div>
 				</section>
 
+				<section className="site-panel mt-2 lg:hidden">
+					<h2 className="panel-header">Today's Obsession</h2>
+					<div className="flex justify-center overflow-hidden p-2">
+						<video
+							autoPlay
+							loop
+							muted
+							playsInline
+							preload="metadata"
+							className="block h-auto max-h-28 w-auto max-w-full scale-250 object-contain"
+						>
+							<source src="/videos/divergence-meter.webm" type="video/webm" />
+						</video>
+					</div>
+				</section>
 				<section className="site-panel mt-2 lg:hidden">
 					<h2 className="panel-header">Links</h2>
 
