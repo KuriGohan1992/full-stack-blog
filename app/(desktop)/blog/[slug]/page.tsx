@@ -3,7 +3,9 @@ import { notFound } from "next/navigation";
 import { CommentForm } from "@/components/comment-form";
 import { CommentList } from "@/components/comment-list";
 import { PostContent } from "@/components/post-content";
+import { PostDeleteControl } from "@/components/post-delete-control";
 import { WindowControls } from "@/components/window-controls";
+import { isAdmin } from "@/lib/auth/admin-session";
 import { getApprovedCommentsByPostId, getPostBySlug } from "@/lib/db/queries";
 
 type BlogPostPageProps = Readonly<{
@@ -30,7 +32,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 	const postComments = await getApprovedCommentsByPostId(post.id);
 	const formattedDate = dateFormatter.format(post.createdAt);
 
-	const isAdmin = false;
+	const admin = await isAdmin();
 
 	return (
 		<main className="desktop-area">
@@ -42,29 +44,60 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 				</div>
 
 				<nav className="post-menu" aria-label="Post actions">
-					<a href="/blog" className="post-menu__item">
+					<a href="/blog" className="post-menu__item post-menu__button">
 						Blogs
 					</a>
 
-					<a href="#post-content" className="post-menu__item">
+					<a href="#post-content" className="post-menu__item post-menu__button">
 						View
 					</a>
 
-					<a href="#comments" className="post-menu__item">
+					<a href="#comments" className="post-menu__item post-menu__button">
 						Comment
 					</a>
 
-					<button type="button" className="post-menu__item" disabled={!isAdmin}>
-						New
-					</button>
+					{admin ? (
+						<a href="/new" className="post-menu__item post-menu__button">
+							New
+						</a>
+					) : (
+						<button
+							type="button"
+							className="post-menu__item post-menu__button"
+							disabled
+						>
+							New
+						</button>
+					)}
 
-					<button type="button" className="post-menu__item" disabled={!isAdmin}>
-						Edit
-					</button>
+					{admin ? (
+						<a
+							href={`/edit/${post.id}`}
+							className="post-menu__item post-menu__button"
+						>
+							Edit
+						</a>
+					) : (
+						<button
+							type="button"
+							className="post-menu__item post-menu__button"
+							disabled
+						>
+							Edit
+						</button>
+					)}
 
-					<button type="button" className="post-menu__item" disabled={!isAdmin}>
-						Delete
-					</button>
+					{admin ? (
+						<PostDeleteControl postId={post.id} />
+					) : (
+						<button
+							type="button"
+							className="post-menu__item post-menu__button"
+							disabled
+						>
+							Delete
+						</button>
+					)}
 				</nav>
 
 				<div className="window-body post-window-body">
@@ -112,7 +145,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 						<CommentForm postId={post.id} slug={post.slug} />
 
 						<div className="comments-section__list">
-							<CommentList comments={postComments} />
+						<CommentList
+	postId={post.id}
+	slug={post.slug}
+	isAdmin={admin}
+/>
 						</div>
 					</section>
 				</div>

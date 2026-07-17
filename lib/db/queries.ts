@@ -22,6 +22,14 @@ export async function getApprovedCommentsByPostId(postId: string) {
 		.orderBy(desc(comments.createdAt));
 }
 
+export async function getCommentsByPostId(postId: string) {
+	return db
+		.select()
+		.from(comments)
+		.where(eq(comments.postId, postId))
+		.orderBy(desc(comments.createdAt));
+}
+
 export async function getRecentPosts(limit = 4) {
 	return db.select().from(posts).orderBy(desc(posts.createdAt)).limit(limit);
 }
@@ -42,6 +50,12 @@ export async function getPostBySlug(slug: string) {
 		.from(posts)
 		.where(eq(posts.slug, slug))
 		.limit(1);
+
+	return post;
+}
+
+export async function getPostById(id: string) {
+	const [post] = await db.select().from(posts).where(eq(posts.id, id)).limit(1);
 
 	return post;
 }
