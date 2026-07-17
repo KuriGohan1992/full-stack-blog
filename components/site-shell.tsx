@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 import { AccountPanel } from "./account-panel";
 import { SiteLogo } from "./site-logo";
 import { SiteNavigation } from "./site-navigation";
@@ -28,7 +28,9 @@ export function SiteShell({ children }: SiteShellProps) {
 
 				<div className="mb-2 grid gap-2 lg:hidden">
 					<section className="site-panel">
-						<AccountPanel />
+						<Suspense fallback={<AccountPanelFallback />}>
+							<AccountPanel />
+						</Suspense>
 					</section>
 					<section className="site-panel">
 						<h2 className="panel-header">Theme</h2>
@@ -80,7 +82,9 @@ export function SiteShell({ children }: SiteShellProps) {
 
 					<aside className="hidden min-h-0 space-y-2 lg:block">
 						<section className="site-panel">
-							<AccountPanel />
+							<Suspense fallback={<AccountPanelFallback />}>
+								<AccountPanel />
+							</Suspense>
 						</section>
 
 						<section className="site-panel">
@@ -133,5 +137,21 @@ export function SiteShell({ children }: SiteShellProps) {
 				</section>
 			</div>
 		</div>
+	);
+}
+
+function AccountPanelFallback() {
+	return (
+		<section className="site-panel">
+			<h2 className="panel-header">Account</h2>
+
+			<div className="panel-body">
+				<p className="m-0">
+					Role: <strong>Visitor</strong>
+				</p>
+
+				<p className="mt-2 mb-0">Checking administrator access...</p>
+			</div>
+		</section>
 	);
 }
