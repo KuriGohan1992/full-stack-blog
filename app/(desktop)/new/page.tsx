@@ -38,9 +38,9 @@ async function NewPostContent() {
 					<BackButton />
 
 					<header className="mb-2 border-b border-[#808080] pb-3">
-						<h1 className="mt-2 mb-0 text-4xl font-normal text-black">
+						<h2 className="mt-2 mb-0 text-4xl font-normal text-black">
 							Create a new post
-						</h1>
+						</h2>
 
 						<p className="mt-1 text-sm text-[#555]">
 							Complete the fields below, preview the result, and publish it to
