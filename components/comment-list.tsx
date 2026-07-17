@@ -1,4 +1,7 @@
-import { toggleCommentApproval } from "@/lib/actions/comments";
+import {
+	toggleCommentApproval,
+	toggleCommentAward,
+} from "@/lib/actions/comments";
 import {
 	getApprovedCommentsByPostId,
 	getCommentsByPostId,
@@ -18,11 +21,7 @@ function formatCommentDate(date: Date): string {
 	}).format(date);
 }
 
-export async function CommentList({
-	postId,
-	slug,
-	isAdmin,
-}: CommentListProps) {
+export async function CommentList({ postId, slug, isAdmin }: CommentListProps) {
 	const comments = isAdmin
 		? await getCommentsByPostId(postId)
 		: await getApprovedCommentsByPostId(postId);
@@ -50,6 +49,18 @@ export async function CommentList({
 						<div>
 							<span className="comment-entry__author">
 								{comment.authorName}
+
+								{comment.awarded && (
+									<span
+										className="ml-1 text-[#d4a000]"
+										title="Awarded by the administrator"
+									>
+										<span aria-hidden="true">★</span>
+										<span className="sr-only">
+											Awarded by the administrator
+										</span>
+									</span>
+								)}
 							</span>
 
 							<time
@@ -61,31 +72,30 @@ export async function CommentList({
 						</div>
 
 						{isAdmin && (
-							<form action={toggleCommentApproval}>
-								<input
-									type="hidden"
-									name="commentId"
-									value={comment.id}
-								/>
+							<div className="flex gap-2">
+								<form action={toggleCommentAward}>
+									<input type="hidden" name="commentId" value={comment.id} />
 
-								<input
-									type="hidden"
-									name="slug"
-									value={slug}
-								/>
+									<input type="hidden" name="slug" value={slug} />
 
-								<button
-									type="submit"
-									className="comment-moderation-button"
-								>
-									{comment.approved ? "Hide" : "Restore"}
-								</button>
-							</form>
+									<button type="submit" className="comment-moderation-button">
+										{comment.awarded ? "Unstar" : "Star"}
+									</button>
+								</form>
+
+								<form action={toggleCommentApproval}>
+									<input type="hidden" name="commentId" value={comment.id} />
+
+									<input type="hidden" name="slug" value={slug} />
+
+									<button type="submit" className="comment-moderation-button">
+										{comment.approved ? "Hide" : "Restore"}
+									</button>
+								</form>
+							</div>
 						)}
 					</header>
-					<p className="comment-entry__body">
-						{comment.body}
-					</p>
+					<p className="comment-entry__body">{comment.body}</p>
 				</article>
 			))}
 		</div>

@@ -1,0 +1,1 @@
+ALTER TABLE "comments" ADD COLUMN "awarded" boolean DEFAULT false NOT NULL;

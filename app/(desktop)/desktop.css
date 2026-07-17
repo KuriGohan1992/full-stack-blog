@@ -551,12 +551,6 @@
 	border-top: 1px dotted #808080;
 }
 
-.comment-entry--hidden .comment-entry__author,
-.comment-entry--hidden .comment-entry__date,
-.comment-entry--hidden .comment-entry__body {
-	opacity: 0.4;
-}
-
 .comment-entry__header {
 	display: flex;
 	align-items: center;
@@ -609,6 +603,17 @@
 	border-left-color: #404040;
 }
 
+.comment-entry--hidden .comment-entry__author,
+.comment-entry--hidden .comment-entry__date,
+.comment-entry--hidden .comment-entry__body {
+	opacity: 0.4;
+}
+
+.comment-entry__award {
+	margin-left: 0.35rem;
+	color: #d4a000;
+	font-size: 1rem;
+}
 
 @media (max-width: 640px) {
 	.desktop-area {

@@ -99,9 +99,7 @@ export async function addComment(
 	};
 }
 
-export async function toggleCommentApproval(
-	formData: FormData,
-): Promise<void> {
+export async function toggleCommentApproval(formData: FormData): Promise<void> {
 	if (!(await isAdmin())) {
 		throw new Error("Unauthorized administrator action.");
 	}
@@ -140,4 +138,44 @@ export async function toggleCommentApproval(
 
 	revalidatePath(`/blog/${slug}`);
 	revalidatePath("/blog");
+}
+
+export async function toggleCommentAward(formData: FormData): Promise<void> {
+	if (!(await isAdmin())) {
+		throw new Error("Unauthorized administrator action.");
+	}
+
+	const commentId = String(formData.get("commentId") ?? "");
+	const slug = String(formData.get("slug") ?? "");
+
+	const parsedCommentId = z.string().uuid().safeParse(commentId);
+
+	if (!parsedCommentId.success) {
+		throw new Error("Invalid comment identifier.");
+	}
+
+	if (slug.length === 0) {
+		throw new Error("Missing post slug.");
+	}
+
+	const [comment] = await db
+		.select({
+			awarded: comments.awarded,
+		})
+		.from(comments)
+		.where(eq(comments.id, parsedCommentId.data))
+		.limit(1);
+
+	if (!comment) {
+		throw new Error("The comment could not be found.");
+	}
+
+	await db
+		.update(comments)
+		.set({
+			awarded: !comment.awarded,
+		})
+		.where(eq(comments.id, parsedCommentId.data));
+
+	revalidatePath(`/blog/${slug}`);
 }

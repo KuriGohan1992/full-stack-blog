@@ -47,6 +47,8 @@ export const comments = pgTable("comments", {
 
 	approved: boolean("approved").default(true).notNull(),
 
+	awarded: boolean("awarded").default(false).notNull(),
+
 	createdAt: timestamp("created_at", {
 		withTimezone: true,
 	})

@@ -29,7 +29,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 		notFound();
 	}
 
-	const postComments = await getApprovedCommentsByPostId(post.id);
+	const _postComments = await getApprovedCommentsByPostId(post.id);
 	const formattedDate = dateFormatter.format(post.createdAt);
 
 	const admin = await isAdmin();
@@ -135,7 +135,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 						<PostContent body={post.body} contentFormat={post.contentFormat} />
 					</section>
 
-
 					<section id="comments" className="comments-section">
 						<h2>Comments</h2>
 
@@ -144,11 +143,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 						<CommentForm postId={post.id} slug={post.slug} />
 
 						<div className="comments-section__list">
-						<CommentList
-	postId={post.id}
-	slug={post.slug}
-	isAdmin={admin}
-/>
+							<CommentList postId={post.id} slug={post.slug} isAdmin={admin} />
 						</div>
 					</section>
 				</div>
