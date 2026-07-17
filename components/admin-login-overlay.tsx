@@ -76,9 +76,9 @@ export function AdminLoginOverlay() {
 
 						<div className="px-4 py-4">
 							<div className="mb-2 flex justify-center items-center gap-3">
-									<p className="font-['Pixelated_MS_Sans_Serif',Arial,sans-serif] text-lg font-bold text-black">
-										Administrator Access
-									</p>
+								<p className="font-['Pixelated_MS_Sans_Serif',Arial,sans-serif] text-lg font-bold text-black">
+									Administrator Access
+								</p>
 							</div>
 
 							<AdminLoginForm onClose={closeOverlay} />

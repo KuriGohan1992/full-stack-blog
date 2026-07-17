@@ -18,8 +18,8 @@ export async function AccountPanel() {
 					<>
 						<p className="mt-1">Administrative controls are enabled.</p>
 
-						<form action={logoutAdmin} className="mt-3 flex justify-center">
-							<button type="submit" className="site-button">
+						<form action={logoutAdmin} className="mt-3">
+							<button type="submit" className="site-link mt-2 cursor-pointer border-0 bg-transparent p-0 underline">
 								Sign out
 							</button>
 						</form>

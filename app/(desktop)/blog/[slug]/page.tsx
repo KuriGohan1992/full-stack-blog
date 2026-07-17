@@ -135,7 +135,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 						<PostContent body={post.body} contentFormat={post.contentFormat} />
 					</section>
 
-					<hr />
 
 					<section id="comments" className="comments-section">
 						<h2>Comments</h2>

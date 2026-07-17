@@ -6,6 +6,7 @@ import { z } from "zod";
 
 import { db } from "@/lib/db";
 import { comments, posts } from "@/lib/db/schema";
+import { isAdmin } from "../auth/admin-session";
 
 const addCommentSchema = z.object({
 	postId: z.string().uuid("Invalid post"),
@@ -96,4 +97,47 @@ export async function addComment(
 		success: true,
 		message: "Your comment was posted successfully.",
 	};
+}
+
+export async function toggleCommentApproval(
+	formData: FormData,
+): Promise<void> {
+	if (!(await isAdmin())) {
+		throw new Error("Unauthorized administrator action.");
+	}
+
+	const commentId = String(formData.get("commentId") ?? "");
+	const slug = String(formData.get("slug") ?? "");
+
+	const parsedCommentId = z.string().uuid().safeParse(commentId);
+
+	if (!parsedCommentId.success) {
+		throw new Error("Invalid comment identifier.");
+	}
+
+	if (slug.length === 0) {
+		throw new Error("Missing post slug.");
+	}
+
+	const [comment] = await db
+		.select({
+			approved: comments.approved,
+		})
+		.from(comments)
+		.where(eq(comments.id, parsedCommentId.data))
+		.limit(1);
+
+	if (!comment) {
+		throw new Error("The comment could not be found.");
+	}
+
+	await db
+		.update(comments)
+		.set({
+			approved: !comment.approved,
+		})
+		.where(eq(comments.id, parsedCommentId.data));
+
+	revalidatePath(`/blog/${slug}`);
+	revalidatePath("/blog");
 }

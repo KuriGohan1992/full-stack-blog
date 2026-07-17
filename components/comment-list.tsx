@@ -1,41 +1,91 @@
-import type { comments } from "@/lib/db/schema";
-
-type Comment = typeof comments.$inferSelect;
+import { toggleCommentApproval } from "@/lib/actions/comments";
+import {
+	getApprovedCommentsByPostId,
+	getCommentsByPostId,
+} from "@/lib/db/queries";
 
 type CommentListProps = Readonly<{
-	comments: Comment[];
+	postId: string;
+	slug: string;
+	isAdmin: boolean;
 }>;
 
-const dateFormatter = new Intl.DateTimeFormat("en-PH", {
-	dateStyle: "medium",
-	timeStyle: "short",
-});
+function formatCommentDate(date: Date): string {
+	return new Intl.DateTimeFormat("en-US", {
+		month: "long",
+		day: "numeric",
+		year: "numeric",
+	}).format(date);
+}
 
-export function CommentList({ comments }: CommentListProps) {
+export async function CommentList({
+	postId,
+	slug,
+	isAdmin,
+}: CommentListProps) {
+	const comments = isAdmin
+		? await getCommentsByPostId(postId)
+		: await getApprovedCommentsByPostId(postId);
+
 	if (comments.length === 0) {
 		return (
-			<p className="comments-empty">
-				No comments yet. Be the first to leave one.
-			</p>
+			<div className="comments-section__list">
+				<p>No comments yet. Be the first to leave one.</p>
+			</div>
 		);
 	}
 
 	return (
-		<div className="comment-list">
+		<div className="comments-section__list">
 			{comments.map((comment) => (
-				<article key={comment.id} className="comment">
-					<header className="comment__header">
-						<strong className="comment__author">{comment.authorName}</strong>
+				<article
+					key={comment.id}
+					className={
+						comment.approved
+							? "comment-entry"
+							: "comment-entry comment-entry--hidden"
+					}
+				>
+					<header className="comment-entry__header">
+						<div>
+							<span className="comment-entry__author">
+								{comment.authorName}
+							</span>
 
-						<time
-							className="comment__date"
-							dateTime={comment.createdAt.toISOString()}
-						>
-							{dateFormatter.format(comment.createdAt)}
-						</time>
+							<time
+								dateTime={comment.createdAt.toISOString()}
+								className="comment-entry__date"
+							>
+								{formatCommentDate(comment.createdAt)}
+							</time>
+						</div>
+
+						{isAdmin && (
+							<form action={toggleCommentApproval}>
+								<input
+									type="hidden"
+									name="commentId"
+									value={comment.id}
+								/>
+
+								<input
+									type="hidden"
+									name="slug"
+									value={slug}
+								/>
+
+								<button
+									type="submit"
+									className="comment-moderation-button"
+								>
+									{comment.approved ? "Hide" : "Restore"}
+								</button>
+							</form>
+						)}
 					</header>
-
-					<p className="comment__body">{comment.body}</p>
+					<p className="comment-entry__body">
+						{comment.body}
+					</p>
 				</article>
 			))}
 		</div>
