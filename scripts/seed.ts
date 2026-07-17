@@ -104,7 +104,7 @@ With Chronicle, I want to borrow the strongest qualities of the old web:
 The best approach is not to reproduce every limitation of 1999. It is to combine the individuality of the old web with the engineering knowledge we have now.
 
 A website can be responsive, semantic, and accessible while still being strange, personal, and unmistakably its creator's own.`,
-		coverImage: null,
+		coverImage: "/posts/old.jpg",
 		contentFormat: "markdown",
 		tags: ["technology", "design", "reflection"],
 		createdAt: new Date("2026-07-14T09:00:00+08:00"),
@@ -142,7 +142,7 @@ But objects are not valued only by efficiency.
 We also value craftsmanship, history, physical presence, and the feeling an object creates when we interact with it. A mechanical watch does not outperform a digital clock at keeping time, yet people still find meaning in its mechanism.
 
 My Nixie clock is unnecessary, inefficient, and far more expensive than an ordinary digital clock. That is precisely why it feels special. It exists not because displaying the time is difficult, but because displaying it beautifully can still matter.`,
-		coverImage: null,
+		coverImage: "/posts/nixie.jpg",
 		contentFormat: "markdown",
 		tags: ["technology", "design", "personal"],
 		createdAt: new Date("2026-07-12T09:00:00+08:00"),
@@ -172,7 +172,7 @@ A purchase can also contain both elements. A good chair may reduce discomfort wh
 The goal is not to feel guilty about buying things. It is to avoid using the language of investing as permission to ignore opportunity cost.
 
 Sometimes the most financially responsible sentence is simply: “This will not make me money. I just like it, and I have decided that the enjoyment is worth the price.”`,
-		coverImage: null,
+		coverImage: "/posts/leisure.jpg",
 		contentFormat: "plain",
 		tags: ["personal", "reflection", "finance"],
 		createdAt: new Date("2026-07-10T09:00:00+08:00"),
@@ -220,7 +220,7 @@ The keyboard rewards customization, but that means the user must decide how ever
 The Ferris Sweep did not instantly make me type faster, and it is not a universal productivity upgrade. Its greatest benefit is that it encouraged me to design the keyboard around my hands rather than forcing my hands to adapt to a standard layout.
 
 It requires patience, experimentation, and a willingness to become temporarily worse at typing. For me, that learning period was worth it.`,
-		coverImage: null,
+		coverImage: "/posts/ferris.jpg",
 		contentFormat: "markdown",
 		tags: ["technology", "personal", "design"],
 		createdAt: new Date("2026-07-08T09:00:00+08:00"),

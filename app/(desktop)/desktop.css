@@ -459,6 +459,83 @@
 	text-align: left;
 }
 
+.post-menu__item--disabled {
+	color: #808080;
+	text-shadow: 1px 1px #fff;
+}
+
+.skeleton-post-date {
+	width: 7rem;
+	height: 0.8rem;
+	margin-bottom: 0.7rem;
+}
+
+.skeleton-post-page-title {
+	width: min(34rem, 80%);
+	height: 2.5rem;
+	margin-bottom: 0.8rem;
+}
+
+.skeleton-post-cover {
+	width: 100%;
+	aspect-ratio: 4 / 3;
+	max-height: 32rem;
+	margin: 1rem 0;
+}
+
+.skeleton-body-line,
+.skeleton-body-line-short,
+.skeleton-body-line-medium {
+	height: 0.9rem;
+	margin-bottom: 0.65rem;
+}
+
+.skeleton-body-line {
+	width: 100%;
+}
+
+.skeleton-body-line-medium {
+	width: 82%;
+}
+
+.skeleton-body-line-short {
+	width: 60%;
+}
+
+.skeleton-section-heading {
+	width: 13rem;
+	height: 1.5rem;
+	margin: 1.5rem 0 0.8rem;
+}
+
+.skeleton-comments-heading {
+	width: 8rem;
+	height: 1.5rem;
+	margin-bottom: 1rem;
+}
+
+.skeleton-form-label {
+	width: 5rem;
+	height: 1rem;
+	margin: 0.75rem 0 0.35rem;
+}
+
+.skeleton-form-input {
+	width: 100%;
+	height: 2.5rem;
+}
+
+.skeleton-form-textarea {
+	width: 100%;
+	height: 6rem;
+}
+
+.skeleton-comment-button {
+	width: 9rem;
+	height: 2.2rem;
+	margin-top: 0.75rem;
+	margin-left: auto;
+}
 @media (max-width: 640px) {
 	.desktop-area {
 		padding: 0.5rem;

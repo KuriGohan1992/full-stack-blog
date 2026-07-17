@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-
+import { AccountPanel } from "./account-panel";
 import { SiteLogo } from "./site-logo";
 import { SiteNavigation } from "./site-navigation";
 import { SocialLinks } from "./social-links";
@@ -30,13 +30,7 @@ export function SiteShell({ children }: SiteShellProps) {
 					<section className="site-panel">
 						<h2 className="panel-header">Account</h2>
 
-						<div className="panel-body">
-							<p className="text-sm">Role: Visitor</p>
-
-							<p className="mt-1 text-sm">
-								Admin controls will appear here later.
-							</p>
-						</div>
+						<AccountPanel />
 					</section>
 					<section className="site-panel">
 						<h2 className="panel-header">Theme</h2>
@@ -58,15 +52,6 @@ export function SiteShell({ children }: SiteShellProps) {
 						</section>
 
 						<section className="site-panel">
-							<h2 className="panel-header">Future corner</h2>
-
-							<div className="panel-body">
-								<p className="text-sm">
-									Buttons, GIFs, counters, and other web debris will go here.
-								</p>
-							</div>
-						</section>
-						<section className="site-panel">
 							<h2 className="panel-header">Alternate background</h2>
 
 							<div className="panel-body">
@@ -79,15 +64,7 @@ export function SiteShell({ children }: SiteShellProps) {
 
 					<aside className="hidden min-h-0 space-y-2 lg:block">
 						<section className="site-panel">
-							<h2 className="panel-header">Account</h2>
-
-							<div className="panel-body">
-								<p className="text-sm">Role: Visitor</p>
-
-								<p className="mt-1 text-sm">
-									Admin controls will appear here later.
-								</p>
-							</div>
+							<AccountPanel />
 						</section>
 
 						<section className="site-panel">

@@ -53,11 +53,9 @@ export default async function HomePage() {
 			</section>
 
 			<section className="site-panel-dashed site-panel mt-2 p-3">
-				<h2 className="site-heading text-xl">Guestbook</h2>
+				<h2 className="site-heading text-xl">Guestbook (Under Development)</h2>
 
-				<p className="mt-2">
-					Coming soon. Leave a message for the entire site.
-				</p>
+				<p className="mt-2">Leave a message for the entire site.</p>
 			</section>
 		</div>
 	);

@@ -3,61 +3,219 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
 	title: "Resources",
 	description:
-		"Tools, references, articles, and websites collected by Chronicle.",
+		"Technologies, tools, libraries, and references used to build Chronicle.",
 };
 
-const resourceGroups = [
+type Resource = Readonly<{
+	name: string;
+	description: string;
+}>;
+
+type ResourceSection = Readonly<{
+	title: string;
+	description: string;
+	resources: readonly Resource[];
+}>;
+
+const resourceSections: readonly ResourceSection[] = [
 	{
-		title: "Development",
-		items: [
+		title: "Core framework",
+		description:
+			"The main technologies responsible for rendering and structuring the application.",
+		resources: [
 			{
-				label: "Next.js Documentation",
-				href: "https://nextjs.org/docs",
+				name: "Next.js 16",
+				description:
+					"Provides the App Router, Server Components, Server Actions, routing, metadata, loading states, and error boundaries.",
 			},
 			{
-				label: "React Documentation",
-				href: "https://react.dev",
+				name: "React 19",
+				description:
+					"Provides the component model and hooks such as useActionState and useFormStatus.",
+			},
+			{
+				name: "TypeScript",
+				description:
+					"Adds static types for component props, form state, database records, and utility functions.",
 			},
 		],
 	},
 	{
-		title: "Design and the old web",
-		items: [
+		title: "Styling and interface",
+		description:
+			"The tools and visual references used for Chronicle's old-web and desktop-inspired design.",
+		resources: [
 			{
-				label: "Add your first reference",
-				href: "#",
+				name: "Tailwind CSS 4",
+				description:
+					"Handles utility-based layouts, responsive styling, spacing, typography, and one-off page designs.",
+			},
+			{
+				name: "98.css",
+				description:
+					"Provides the Windows 98-inspired window, title bar, controls, status bar, and form appearance used on individual post pages.",
+			},
+			{
+				name: "CSS custom properties",
+				description:
+					"Power the paper and sky themes, wallpaper choices, panel colors, links, buttons, and shared site styling.",
+			},
+			{
+				name: "HTTP Cats",
+				description:
+					"Supplies the illustrated HTTP 404 and 500 images used by Chronicle's not-found and error pages.",
 			},
 		],
 	},
-] as const;
+	{
+		title: "Database and validation",
+		description:
+			"The server-side tools responsible for persistent posts, comments, and validation.",
+		resources: [
+			{
+				name: "Neon PostgreSQL",
+				description:
+					"Stores blog posts, tags, content formats, cover-image paths, comments, and moderation state.",
+			},
+			{
+				name: "Drizzle ORM",
+				description:
+					"Defines the database schema and provides typed queries for posts and comments.",
+			},
+			{
+				name: "Drizzle Kit",
+				description:
+					"Generates SQL migration files and applies migrations to the Neon database.",
+			},
+			{
+				name: "Neon serverless driver",
+				description:
+					"Connects the Next.js server environment to Neon through its HTTP database driver.",
+			},
+			{
+				name: "Zod",
+				description:
+					"Validates comment and future administrative form submissions before database mutations.",
+			},
+		],
+	},
+	{
+		title: "Content and interaction",
+		description:
+			"Libraries and Next.js features used for posts, comments, and interactive forms.",
+		resources: [
+			{
+				name: "React Markdown",
+				description:
+					"Renders posts stored with the Markdown content format as React elements.",
+			},
+			{
+				name: "remark-gfm",
+				description:
+					"Adds GitHub Flavored Markdown features such as tables, task lists, and strikethrough.",
+			},
+			{
+				name: "Server Actions",
+				description:
+					"Handle comment submissions and future administrative mutations without a separate API route.",
+			},
+			{
+				name: "React Suspense",
+				description:
+					"Shows temporary loading UI while asynchronous components such as comment counts finish rendering.",
+			},
+			{
+				name: "js-cookie",
+				description:
+					"Stores the selected theme and wallpaper preferences in browser cookies.",
+			},
+		],
+	},
+	{
+		title: "Development and deployment",
+		description:
+			"The tools used to install packages, maintain quality, seed data, and publish the application.",
+		resources: [
+			{
+				name: "pnpm",
+				description:
+					"Manages project dependencies and runs development, migration, seed, check, and build scripts.",
+			},
+			{
+				name: "Biome",
+				description:
+					"Formats the codebase and checks code quality, accessibility, and common implementation mistakes.",
+			},
+			{
+				name: "tsx",
+				description:
+					"Runs TypeScript scripts directly, including the database seed script.",
+			},
+			{
+				name: "Git and GitHub",
+				description:
+					"Track the project history, migration files, source code, and Conventional Commit messages.",
+			},
+			{
+				name: "Vercel",
+				description:
+					"Hosts the production Next.js application and supplies its deployment environment variables.",
+			},
+		],
+	},
+];
 
 export default function ResourcesPage() {
+	const _newLocal =
+		"border-t border-(--panel-border-color) px-4 py-3 text-center text-sm text-(--muted-color)";
 	return (
-		<section className="site-panel p-5 sm:p-6">
-			<h1 className="site-heading text-3xl">Resources</h1>
+		<main className="border border-(--panel-border-color) bg-(--panel-background) text-(--page-color)">
+			<header className="border-b border-(--panel-border-color) px-4 py-4">
+				<h1 className="font-sans text-3xl font-bold text-(--heading-color)">
+					Resources
+				</h1>
 
-			<p className="mt-3 leading-7">
-				A growing collection of tools, references, archives, and websites that
-				helped shape Chronicle.
-			</p>
+				<p className="mt-1 max-w-3xl leading-6">
+					A collection of the technologies, libraries, services, and references
+					used while building Chronicle.
+				</p>
+			</header>
 
-			<div className="mt-6 space-y-6">
-				{resourceGroups.map((group) => (
-					<section key={group.title}>
-						<h2 className="site-heading text-xl">{group.title}</h2>
+			<div className="px-4 py-2">
+				{resourceSections.map((section) => (
+					<section
+						key={section.title}
+						className="border-b border-dotted border-(--panel-border-color) py-5 last:border-b-0"
+					>
+						<h2 className="font-sans text-xl font-bold text-(--heading-color)">
+							{section.title}
+						</h2>
 
-						<ul className="mt-3 list-disc space-y-2 pl-6">
-							{group.items.map((item) => (
-								<li key={item.label}>
-									<a href={item.href} className="site-link">
-										{item.label}
-									</a>
+						<p className="mt-1 max-w-3xl text-sm leading-5 text-(--muted-color)">
+							{section.description}
+						</p>
+
+						<ul className="mt-4 space-y-3 pl-6">
+							{section.resources.map((resource) => (
+								<li
+									key={resource.name}
+									className="list-disc marker:text-(--link-color)"
+								>
+									<p className="leading-6">
+										<strong className="font-sans text-(--heading-color)">
+											{resource.name}
+										</strong>
+
+										<span aria-hidden="true"> — </span>
+
+										<span>{resource.description}</span>
+									</p>
 								</li>
 							))}
 						</ul>
 					</section>
 				))}
 			</div>
-		</section>
+		</main>
 	);
 }

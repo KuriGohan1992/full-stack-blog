@@ -562,6 +562,204 @@ html[data-theme="sky"] .lightning-decoration {
 	border: 1px solid transparent;
 }
 
+/* ---------- Skeleton Loading ---------- */
+
+.skeleton {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid rgb(95 81 53 / 35%);
+	border-radius: 2px;
+	background: rgb(95 81 53 / 22%);
+}
+
+.skeleton::after {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		rgb(255 255 255 / 45%),
+		transparent
+	);
+	content: "";
+	transform: translateX(-100%);
+	animation: skeleton-shimmer 1.4s infinite;
+}
+
+html[data-theme="sky"] .skeleton {
+	border-color: rgb(84 184 255 / 25%);
+	background: rgb(84 184 255 / 18%);
+}
+
+html[data-theme="sky"] .skeleton::after {
+	background: linear-gradient(
+		90deg,
+		transparent,
+		rgb(168 223 255 / 35%),
+		transparent
+	);
+}
+
+@keyframes skeleton-shimmer {
+	100% {
+		transform: translateX(100%);
+	}
+}
+
+/* ---------- Archive header ---------- */
+
+.skeleton-heading {
+	width: 17rem;
+	height: 2rem;
+}
+
+.skeleton-intro-line {
+	width: 20rem;
+	height: 0.9rem;
+	margin-top: 0.6rem;
+}
+
+.skeleton-note-line {
+	width: 34rem;
+	max-width: 95%;
+	height: 0.75rem;
+	margin-top: 0.4rem;
+}
+
+/* ---------- Search ---------- */
+
+.skeleton-search-input {
+	flex: 1;
+	height: 2rem;
+}
+
+.skeleton-search-button {
+	width: 5.5rem;
+	height: 2rem;
+}
+
+.skeleton-filter-heading {
+	width: 7rem;
+	height: 1rem;
+	margin-bottom: 0.45rem;
+}
+
+/* ---------- Tags ---------- */
+
+.skeleton-tag-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.35rem;
+	margin-top: 0.35rem;
+}
+
+.skeleton-tag {
+	width: 4rem;
+	height: 0.8rem;
+}
+.skeleton-clear-filter-button {
+	width: 5.5rem;
+	height: 1.8rem;
+	margin-top: 0.6rem;
+}
+
+/* ---------- Blog cards ---------- */
+
+.skeleton-post-content {
+	display: grid;
+	align-content: start;
+	gap: 0.35rem;
+	padding-block: 0.1rem;
+}
+
+.skeleton-date {
+	width: 6rem;
+	height: 0.7rem;
+}
+
+.skeleton-post-title {
+	width: min(20rem, 70%);
+	height: 1.15rem;
+}
+
+.skeleton-excerpt-line,
+.skeleton-excerpt-line-short {
+	height: 0.75rem;
+}
+
+.skeleton-excerpt-line {
+	width: 100%;
+}
+
+.skeleton-excerpt-line-short {
+	width: 72%;
+}
+
+/* ---------- Pagination ---------- */
+
+.skeleton-pagination-button {
+	width: 2rem;
+	height: 1.8rem;
+}
+
+.blog-error {
+	padding: 1rem;
+}
+
+/* ---------- Home loading ---------- */
+
+.skeleton-home-title {
+	width: 16rem;
+	max-width: 70%;
+	height: 1.8rem;
+}
+
+.skeleton-home-intro-line {
+	width: 92%;
+	height: 0.9rem;
+	margin-top: 0.75rem;
+}
+
+.skeleton-home-intro-line-short {
+	width: 70%;
+	height: 0.9rem;
+	margin-top: 0.5rem;
+}
+
+.skeleton-home-section-title {
+	width: 10rem;
+	height: 1.6rem;
+}
+
+.skeleton-home-section-description {
+	width: 13rem;
+	height: 0.8rem;
+	margin-top: 0.35rem;
+}
+
+.skeleton-home-view-all {
+	width: 7rem;
+	height: 1rem;
+}
+
+.skeleton-home-guestbook-title {
+	width: 7rem;
+	height: 1.35rem;
+}
+
+.skeleton-home-guestbook-text {
+	width: 17rem;
+	max-width: 80%;
+	height: 0.85rem;
+	margin-top: 0.65rem;
+}
+
+@keyframes skeleton-shimmer {
+	to {
+		transform: translateX(100%);
+	}
+}
+
 @media (max-width: 1023px) {
 	.site-background {
 		height: auto;
