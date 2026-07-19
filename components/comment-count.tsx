@@ -1,6 +1,6 @@
 import "server-only";
 
-import { count, eq } from "drizzle-orm";
+import { and, count, eq } from "drizzle-orm";
 
 import { db } from "@/lib/db";
 import { comments } from "@/lib/db/schema";
@@ -15,7 +15,7 @@ export async function CommentCount({ postId }: CommentCountProps) {
 			total: count(),
 		})
 		.from(comments)
-		.where(eq(comments.postId, postId));
+		.where(and(eq(comments.postId, postId), eq(comments.approved, true)));
 
 	const total = result?.total ?? 0;
 

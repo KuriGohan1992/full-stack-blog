@@ -36,17 +36,23 @@ export type CommentFormState = Readonly<{
 	}>;
 }>;
 
+function normalizeLineBreaks(value: FormDataEntryValue | null): string {
+	return typeof value === "string"
+		? value.replace(/\r\n?/g, "\n")
+		: "";
+}
+
 export async function addComment(
 	_previousState: CommentFormState,
 	formData: FormData,
 ): Promise<CommentFormState> {
 	const rawAuthorName = formData.get("authorName");
-	const rawBody = formData.get("body");
+	const normalizeBody = normalizeLineBreaks(formData.get("body"));
 	const parsed = addCommentSchema.safeParse({
 		postId: formData.get("postId"),
 		slug: formData.get("slug"),
 		authorName: rawAuthorName,
-		body: rawBody,
+		body: normalizeBody,
 	});
 
 	if (!parsed.success) {
@@ -60,7 +66,7 @@ export async function addComment(
 			},
 			values: {
 				authorName: typeof rawAuthorName === "string" ? rawAuthorName : "",
-				body: typeof rawBody === "string" ? rawBody : "",
+				body: typeof normalizeBody === "string" ? normalizeBody : "",
 			},
 		};
 	}
