@@ -9,6 +9,9 @@
 		"check": "biome check .",
 		"check:write": "biome check --write .",
 		"typecheck": "tsc --noEmit",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:studio": "drizzle-kit studio",
 		"db:seed": "tsx scripts/seed.ts"
 	},
 	"dependencies": {

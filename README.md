@@ -165,12 +165,11 @@ scripts/
 
 ## Environment Variables
 
-Create a `.env.local` file in the project root:
+````md
+Copy the included `.env.example` file to `.env.local`:
 
-```env
-DATABASE_URL=
-ADMIN_PASSWORD=
-ADMIN_SESSION_SECRET=
+```bash
+cp .env.example .env.local
 ```
 
 - `DATABASE_URL` — Neon Postgres connection string
