@@ -225,7 +225,7 @@ export default function ResourcesPage() {
 												rel="noreferrer"
 												className="site-link"
 											>
-												<strong>{resource.name}</strong>
+												<strong className="font-['Arial']">{resource.name}</strong>
 											</a>
 										) : (
 											<strong>{resource.name}</strong>
